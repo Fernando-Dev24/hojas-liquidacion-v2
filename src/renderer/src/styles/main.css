@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #ffffff;
+  --color-secondary: #303845;
+}
+
+:root {
+  --color-primary: #ffffff;
+  --color-secondary: #303845;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+}
+
+#bg-login {
+  background-image: url(../../../../public/wallpaper-login.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* #bg-login::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  @apply bg-neutral-900/80 z-10;
+} */
+
+/* TOASTIFY CUSTOM FONT FAMILY */
+.toastify-custom-styles {
+  font-family: 'Outfit', sans-serif;
+}
