@@ -1,9 +1,11 @@
-import { Navbar } from '../../components/home/navbar'
+import { Navbar, Landing, PagesGrid } from '../../components'
 
 export const HomePage = () => {
   return (
     <section>
       <Navbar />
+      <Landing />
+      <PagesGrid />
     </section>
   )
 }

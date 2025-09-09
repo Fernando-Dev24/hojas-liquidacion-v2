@@ -5,7 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 // import { useAuthContext } from '../pages/auth/hooks';
 
 /* LAZY AND NOT LAZY COMPONENTS */
-import { Loader } from '../components'
+import { Loader } from '../../components'
 const Login = lazy(() => import('../auth/pages/login'))
 /* const Profile = lazy(() => import('../pages/auth/screens/Profile')); */
 
