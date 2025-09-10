@@ -28,3 +28,14 @@ body {
 .toastify-custom-styles {
   font-family: 'Outfit', sans-serif;
 }
+
+/* UPDATE FORM STYLES */
+div.update-form label {
+  @apply block w-max pb-2 text-neutral-700 cursor-pointer;
+}
+
+div.update-form input,
+select {
+  @apply w-full py-3 px-5 rounded-md border border-gray-400 outline-none duration-150;
+  @apply hover:border-secondary focus:border-secondary focus:shadow-md;
+}
