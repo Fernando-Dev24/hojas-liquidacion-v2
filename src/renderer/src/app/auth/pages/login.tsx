@@ -2,7 +2,7 @@ import { IoEyeOutline } from 'react-icons/io5'
 import { formInputs } from '../form-types'
 import logo_mined from '../../../../../../public/mined-logo.png'
 import { useLogin } from '../hooks'
-import { onLogin } from '../actions'
+import { onLogin } from '../../actions'
 
 const Login = () => {
   const { register, handleSubmit, toggleSeePassword, seePassword } = useLogin()

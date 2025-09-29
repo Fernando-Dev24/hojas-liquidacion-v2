@@ -3,8 +3,8 @@ import { GridItem } from './grid-item'
 
 const data: ObservationPage[] = [
   {
-    id: '0457553686',
-    infra: 86393,
+    id: '1',
+    infra: '86393',
     school_name: 'CENTRO ESCOLAR LOTIFICACIÓN SANTA CARLOTA N° 1, CANTÓN JOYA GALANA',
     department: 'SALARIOS DE PERSONAL CONTRATADO EN EL CENTRO EDUCATIVO 2024 - BÁSICA',
     amount: 2262,
@@ -17,8 +17,8 @@ const data: ObservationPage[] = [
     reportId: '1'
   },
   {
-    id: '0457553686',
-    infra: 11723,
+    id: '2',
+    infra: '11723',
     school_name: 'COMPLEJO EDUCATIVO REPÚBLICA DE COREA',
     department: 'SALARIO MEDIA 2024',
     amount: 20530.88,
@@ -31,8 +31,8 @@ const data: ObservationPage[] = [
     reportId: '1'
   },
   {
-    id: '0457553686',
-    infra: 11723,
+    id: '3',
+    infra: '11723',
     school_name: 'COMPLEJO EDUCATIVO REPÚBLICA DE COREA',
     department: 'FUNCIONAMIENTO 2024',
     amount: 3000,

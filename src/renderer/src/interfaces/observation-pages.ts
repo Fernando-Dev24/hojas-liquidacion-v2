@@ -1,12 +1,12 @@
 export interface ObservationPage {
   amount: number
-  category: string
+  category: 'PAQUETES' | 'FINANCIERO'
   created: number
   createdBy: string
   date: Date
   department: string
   filledBy: string
-  infra: number
+  infra: string
   observations: Observation[]
   id: string
   reportId: string
@@ -21,9 +21,9 @@ export interface Observation {
 }
 
 export interface ObservationPageFormValues {
-  id?: string
-  reportId?: string
-  infra: number
+  id: string | null
+  reportId: string | null
+  infra: string
   date: Date
   school_name: string
   department: string

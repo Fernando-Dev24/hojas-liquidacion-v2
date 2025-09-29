@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify'
-import { FormValues } from '../hooks/use-login'
+import type { FormValues } from '../../auth/hooks/use-login'
 import z from 'zod'
 
 const login_schema = z.object({
