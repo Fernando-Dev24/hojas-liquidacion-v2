@@ -1,3 +1,4 @@
+import { handleSaveAndExit } from '@renderer/helpers'
 import { useUpdateForm } from '@renderer/store'
 import { useModals } from '@renderer/store/modal-store'
 import { FiArrowLeft, FiFile, FiTrash } from 'react-icons/fi'
@@ -11,8 +12,9 @@ export const UpdateNavbar = () => {
   const toggleModal = useModals((state) => state.toggleModal)
   const form = useUpdateForm((state) => state.form)
 
-  const handleNavigate = () => {
-    navigate('/app/home', { replace: true })
+  const handleExit = () => {
+    //navigate('/app/home', { replace: true })
+    handleSaveAndExit()
   }
 
   const viewPDF = () => {
@@ -21,7 +23,7 @@ export const UpdateNavbar = () => {
 
   return (
     <nav className="py-10 flex justify-between items-center">
-      <button className={button_class} onClick={handleNavigate}>
+      <button className={button_class} onClick={handleSaveAndExit}>
         <FiArrowLeft size={20} className="mr-3" />
         Regresar
       </button>

@@ -146,3 +146,8 @@ p.signature-label {
 small.signature-rol {
   @apply font-semibold text-[12.5px];
 }
+
+/* BUTTONS */
+button.btn {
+  @apply py-3;
+}

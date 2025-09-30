@@ -8,28 +8,34 @@ import { PDFWrapper } from './docs'
 /* STYLES */
 import './styles/main.css'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-function App(): React.JSX.Element {
+// inicializar query client
+const queryClient = new QueryClient()
+
+function App() {
   // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 
   return (
     <>
       <HashRouter>
-        <PDFWrapper id="pdfModal" />
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          pauseOnFocusLoss={false}
-          closeOnClick
-          rtl={false}
-          draggable
-          theme="dark"
-          transition={Bounce}
-          toastClassName="toastify-custom-styles"
-        />
-        <Router />
+        <QueryClientProvider client={queryClient}>
+          <PDFWrapper id="pdfModal" />
+          <ToastContainer
+            position="bottom-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            pauseOnFocusLoss={false}
+            closeOnClick
+            rtl={false}
+            draggable
+            theme="dark"
+            transition={Bounce}
+            toastClassName="toastify-custom-styles"
+          />
+          <Router />
+        </QueryClientProvider>
       </HashRouter>
     </>
   )

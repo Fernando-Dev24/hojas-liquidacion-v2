@@ -1,4 +1,4 @@
-import { Suspense, useEffect, lazy } from 'react'
+import { Suspense, useEffect, lazy, useCallback } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
 /* HOOKS */
@@ -11,20 +11,37 @@ const Login = lazy(() => import('../auth/pages/login'))
 
 /* ROUTES */
 import { routes } from './routes'
+import { useQuery } from '@tanstack/react-query'
+import { getUserByName } from '../actions'
+import { useLogin } from '@renderer/store'
 
 /* VARIABLES */
-const status: 'not-authenticated' | 'authenticated' = 'authenticated'
 const currentUser = {}
 
 export const Router = () => {
-  /* HOOKS */
-  //const { status, currentUser, startCheckingToken } = useAuthContext()
+  const username = localStorage.getItem('username')
 
-  /* EFFECT - CUANDO LA APP SE INICIE PROCEDEMOS A ENTRAR DIRECTAMENTE AL EFFECT QUE VALIDARA SI EXISTE UN USUARIO */
-  /* useEffect(() => {
-    const checkToken = async () => await startCheckingToken()
-    checkToken()
-  }, []) */
+  const {
+    data: user,
+    isLoading,
+    error
+  } = useQuery({
+    queryKey: ['get-user'],
+    queryFn: () => getUserByName(username)
+  })
+
+  const { setUser, reset, status } = useLogin((state) => state)
+
+  // si no existe usuario mandamos al usuario a la pagina del login, si existe entonces lo llevamos a la app
+  const cb = useCallback(() => {
+    if (!user) reset()
+    else setUser(user)
+  }, [user])
+
+  useEffect(() => cb(), [cb])
+
+  if (isLoading) return <Loader />
+  if (error) return <div>Error al cargar usuarios, recarga la página dentro de un minuto</div>
 
   return (
     <Suspense fallback={<Loader />}>
