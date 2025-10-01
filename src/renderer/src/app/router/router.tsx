@@ -15,11 +15,11 @@ import { useQuery } from '@tanstack/react-query'
 import { getUserByName } from '../actions'
 import { useLogin } from '@renderer/store'
 
-/* VARIABLES */
 const currentUser = {}
 
 export const Router = () => {
   const username = localStorage.getItem('username')
+  const password = localStorage.getItem('password')
 
   const {
     data: user,
@@ -27,7 +27,7 @@ export const Router = () => {
     error
   } = useQuery({
     queryKey: ['get-user'],
-    queryFn: () => getUserByName(username)
+    queryFn: () => getUserByName({ username, password })
   })
 
   const { setUser, reset, status } = useLogin((state) => state)
@@ -35,7 +35,9 @@ export const Router = () => {
   // si no existe usuario mandamos al usuario a la pagina del login, si existe entonces lo llevamos a la app
   const cb = useCallback(() => {
     if (!user) reset()
-    else setUser(user)
+    else {
+      setUser(user)
+    }
   }, [user])
 
   useEffect(() => cb(), [cb])

@@ -1,30 +1,16 @@
-import { FiPlus, FiUsers, FiCalendar, FiLogOut, FiFile } from 'react-icons/fi'
+import { FiPlus, FiUsers, FiLogOut } from 'react-icons/fi'
 import el_salvador_logo from '../../../../../../../public/el-salvador-logo.svg'
-
-interface NavigationBtn {
-  url: string
-  icon: React.ReactNode
-  fn: () => void
-}
-
-const btns: NavigationBtn[] = [
-  {
-    url: '/app/users',
-    icon: <FiUsers size={20} />,
-    fn: () => {
-      console.log('users')
-    }
-  },
-  {
-    url: '/app/signOut',
-    icon: <FiLogOut size={20} />,
-    fn: () => {
-      console.log('cerrar sesion')
-    }
-  }
-]
+import { useLogin } from '@renderer/store'
 
 export const Navbar = () => {
+  const reset = useLogin((state) => state.reset)
+
+  const onSignOut = () => {
+    localStorage.removeItem('username')
+    localStorage.removeItem('password')
+    reset()
+  }
+
   return (
     <nav className="relative flex justify-between items-center py-5 px-10 bg-secondary text-white">
       <article className="flex items-center">
@@ -47,14 +33,16 @@ export const Navbar = () => {
       </article>
 
       <article className="flex items-center gap-x-3">
-        {btns.map((btn) => (
-          <button
-            key={btn.url}
-            className="py-2 px-4 rounded-md border border-white hover:bg-white hover:text-secondary duration-150"
-          >
-            {btn.icon}
-          </button>
-        ))}
+        <button className="py-2 px-4 rounded-md border border-white hover:bg-white hover:text-secondary duration-150">
+          <FiUsers size={20} />
+        </button>
+
+        <button
+          className="py-2 px-4 rounded-md border border-white hover:bg-white hover:text-secondary duration-150"
+          onClick={onSignOut}
+        >
+          <FiLogOut size={20} />
+        </button>
       </article>
     </nav>
   )

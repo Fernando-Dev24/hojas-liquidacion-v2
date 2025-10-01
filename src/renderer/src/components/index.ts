@@ -1,3 +1,4 @@
 export * from './loader'
 export * from './empty'
 export * from './modal'
+export * from './pagination'

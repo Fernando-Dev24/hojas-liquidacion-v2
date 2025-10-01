@@ -1,10 +1,14 @@
+import { useLogin } from '@renderer/store'
 import { FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
 
 export const Landing = () => {
+  const user = useLogin((state) => state.user)
+
   return (
     <section className="container mt-30">
       <h3 className="text-7xl font-medium text-center text-neutral-700">
-        Buen día, <span className="font-bold text-secondary">Fernando</span>
+        Buen día,{' '}
+        <span className="font-bold capitalize text-secondary">{user?.username.split(' ')[0]}</span>
       </h3>
 
       <nav className="my-10 flex justify-center items-center gap-x-5">

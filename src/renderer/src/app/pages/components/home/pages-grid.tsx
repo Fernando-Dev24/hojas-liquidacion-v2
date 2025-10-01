@@ -1,52 +1,29 @@
-import { ObservationPage } from '@renderer/interfaces'
 import { GridItem } from './grid-item'
-
-const data: ObservationPage[] = [
-  {
-    id: '1',
-    infra: '86393',
-    school_name: 'CENTRO ESCOLAR LOTIFICACIÓN SANTA CARLOTA N° 1, CANTÓN JOYA GALANA',
-    department: 'SALARIOS DE PERSONAL CONTRATADO EN EL CENTRO EDUCATIVO 2024 - BÁSICA',
-    amount: 2262,
-    createdBy: 'Johan Guevara',
-    date: new Date(2025, 8, 9),
-    category: 'PAQUETES',
-    created: 2262.63,
-    filledBy: 'Ing. Fernando Ortiz',
-    observations: [],
-    reportId: '1'
-  },
-  {
-    id: '2',
-    infra: '11723',
-    school_name: 'COMPLEJO EDUCATIVO REPÚBLICA DE COREA',
-    department: 'SALARIO MEDIA 2024',
-    amount: 20530.88,
-    createdBy: 'Lorena Colocho',
-    date: new Date(2025, 8, 9),
-    category: 'FINANCIERO',
-    created: 20250809,
-    filledBy: 'Ing. Lorena Colocho',
-    observations: [],
-    reportId: '1'
-  },
-  {
-    id: '3',
-    infra: '11723',
-    school_name: 'COMPLEJO EDUCATIVO REPÚBLICA DE COREA',
-    department: 'FUNCIONAMIENTO 2024',
-    amount: 3000,
-    createdBy: 'Lorena Colocho',
-    date: new Date(2025, 8, 9),
-    category: 'FINANCIERO',
-    created: 20250809,
-    filledBy: 'Ing. Lorena Colocho',
-    observations: [],
-    reportId: '1'
-  }
-]
+import { getPaginatedData } from '@renderer/app/actions'
+import { Pagination } from '@renderer/components'
+import { useObservationsStore } from '@renderer/store'
+import { useQuery } from '@tanstack/react-query'
 
 export const PagesGrid = () => {
+  const { currentPage } = useObservationsStore((state) => state)
+
+  const {
+    data: resp,
+    isLoading,
+    error
+  } = useQuery({
+    queryKey: ['observations-pages'],
+    queryFn: () =>
+      getPaginatedData({
+        collName: 'observations_pages',
+        page: currentPage,
+        take: 25
+      })
+  })
+
+  if (isLoading || !resp?.data) return <p>Cargando...</p>
+  if (error) return <p>Error al obtener los datos</p>
+
   return (
     <article className="container my-30">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -77,11 +54,14 @@ export const PagesGrid = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => (
+            {resp.data.map((item) => (
               <GridItem data={item} key={item.id} />
             ))}
           </tbody>
         </table>
+        <div className="px-6 py-5 text-white inset-shadow-teal-50 bg-secondary/85 border-t border-secondary/85">
+          <Pagination totalPages={50} currentPage={1} />
+        </div>
       </div>
     </article>
   )

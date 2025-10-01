@@ -1,4 +1,5 @@
 import { dbPromise } from '@renderer/config/firebase'
+import { User } from '@renderer/interfaces'
 import { collection, getDocs } from 'firebase/firestore'
 
 export const getUsers = async () => {
@@ -8,7 +9,7 @@ export const getUsers = async () => {
     const userSnapshot = await getDocs(usersCollection)
     const userList = userSnapshot.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data()
+      ...(doc.data() as Omit<User, 'id'>)
     }))
 
     return userList

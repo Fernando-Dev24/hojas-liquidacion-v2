@@ -151,3 +151,9 @@ small.signature-rol {
 button.btn {
   @apply py-3;
 }
+
+/* PAGINATION */
+button.btn-pagination {
+  @apply p-2 border rounded border-secondary/85 bg-secondary/90 shadow
+  disabled:cursor-not-allowed disabled:opacity-50;
+}

@@ -1,11 +1,20 @@
 import { IoEyeOutline } from 'react-icons/io5'
 import { formInputs } from '../form-types'
 import logo_mined from '../../../../../../public/mined-logo.png'
-import { useLogin } from '../hooks'
+import { useLogin as useLoginHook } from '../hooks'
 import { onLogin } from '../../actions'
+import { FormValues } from '../hooks/use-login'
+import { useLogin } from '@renderer/store'
 
 const Login = () => {
-  const { register, handleSubmit, toggleSeePassword, seePassword } = useLogin()
+  const { register, handleSubmit, toggleSeePassword, seePassword } = useLoginHook()
+  const setUser = useLogin((state) => state.setUser)
+
+  const onSubmit = async (values: FormValues) => {
+    const user = await onLogin(values)
+    if (!user) return
+    setUser(user)
+  }
 
   return (
     <>
@@ -44,17 +53,25 @@ const Login = () => {
                 />
               </figure>
 
-              <form className="w-full" onSubmit={handleSubmit(onLogin)}>
+              <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
                 {formInputs.map(({ label, placeholder, type }) => (
                   <div className="mb-5" key={type}>
                     <label
-                      htmlFor="email"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+                      htmlFor={type}
+                      className="block mb-2 font-medium text-gray-900 dark:text-gray-400"
                     >
                       {label}
                     </label>
 
                     <div className="relative">
+                      <input
+                        type={type === 'password' ? (seePassword ? 'text' : 'password') : type}
+                        id={type}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 outline-none duration-150"
+                        placeholder={placeholder}
+                        {...register(type, { required: true })}
+                      />
+
                       {type === 'password' && (
                         <button
                           type="button"
@@ -64,14 +81,6 @@ const Login = () => {
                           <IoEyeOutline size={20} className="text-neutral-600" />
                         </button>
                       )}
-
-                      <input
-                        type={type === 'password' ? (seePassword ? 'text' : 'password') : type}
-                        id={type}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 outline-none"
-                        placeholder={placeholder}
-                        {...register(type, { required: true })}
-                      />
                     </div>
                   </div>
                 ))}
