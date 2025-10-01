@@ -1,10 +1,11 @@
-import { db } from '@renderer/config/firebase'
+import { dbPromise } from '@renderer/config/firebase'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 
 export const getUserByName = async (username: string | null) => {
   if (!username) return null
 
   try {
+    const db = await dbPromise
     const collectionRef = collection(db, 'users')
     const q = query(collectionRef, where('username', '==', username))
     const snapshot = await getDocs(q)

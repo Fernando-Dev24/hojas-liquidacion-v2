@@ -1,16 +1,29 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore } from 'firebase/firestore'
 
-// configuracion developtment de firebase
-const developmentConfig = {
-  apiKey: 'AIzaSyAnN2vVZb7Zfvo3RZLCIxyhtU47ObVDtTQ',
-  authDomain: 'db-hojas-observaciones.firebaseapp.com',
-  projectId: 'db-hojas-observaciones',
-  storageBucket: 'db-hojas-observaciones.firebasestorage.app',
-  messagingSenderId: '456727269655',
-  appId: '1:456727269655:web:6e6f6258bc973cf6da2752'
+// Obtener las variables de entorno desde ElectronAPI
+const getFirebaseConfig = async () => {
+  const env = await window.electronAPI.getEnv()
+  return {
+    apiKey: env.VITE_FIREBASE_API_KEY,
+    authDomain: env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: env.VITE_FIREBASE_APP_ID
+  }
 }
 
-// initizalice firebase
-const app = initializeApp(developmentConfig)
-export const db = getFirestore(app)
+// Inicializar Firebase de forma asincrona
+let db: any
+const initFirebase = async () => {
+  const firebaseConfig = await getFirebaseConfig()
+  const app = initializeApp(firebaseConfig)
+  db = getFirestore(app)
+  return db
+}
+
+export const dbPromise = initFirebase()
+
+// export db para uso sincrono
+export { db }

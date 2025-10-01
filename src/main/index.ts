@@ -1,7 +1,12 @@
-import { app, shell, BrowserWindow, ipcMain, session } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../public/icon.ico?asset'
+import dotenv from 'dotenv'
+
+dotenv.config({
+  path: join(__dirname, '../../.env')
+})
 
 function createWindow(): void {
   // Create the browser window.
@@ -13,7 +18,7 @@ function createWindow(): void {
     icon,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
+      preload: join(__dirname, '../preload/index.mjs'),
       sandbox: false
     }
   })
@@ -35,6 +40,16 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
+
+// Pasar variables de entorno al renderer process de forma segura
+ipcMain.handle('get-env', () => ({
+  VITE_FIREBASE_API_KEY: process.env.VITE_FIREBASE_API_KEY,
+  VITE_FIREBASE_AUTH_DOMAIN: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+  VITE_FIREBASE_PROJECT_ID: process.env.VITE_FIREBASE_PROJECT_ID,
+  VITE_FIREBASE_STORAGE_BUCKET: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+  VITE_FIREBASE_MESSAGING_SENDER_ID: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  VITE_FIREBASE_APP_ID: process.env.VITE_FIREBASE_APP_ID
+}))
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
