@@ -1,6 +1,5 @@
 import { dbPromise } from '@renderer/config/firebase'
 import { ObservationPage } from '@renderer/interfaces'
-import { format } from 'date-fns'
 import { collection, getDocs, limit, orderBy, query, startAfter } from 'firebase/firestore'
 
 interface Params {
@@ -41,13 +40,10 @@ export const getPaginatedData = async ({ page, take, collName }: Params) => {
     const snapshot = await getDocs(dataQuery)
     const data = snapshot.docs.map((doc) => {
       const docData = doc.data() as Omit<ObservationPage, 'id'>
-      // TODO: Formatear la fecha del documento a un formato fecha legible para la API date
-      /* const formattedDate = format(docData.date.toDateString(), 'dd/MM/yyyy')
       return {
         id: doc.id,
-        ...docData,
-        date: formattedDate
-      } */
+        ...docData
+      }
     })
 
     return {

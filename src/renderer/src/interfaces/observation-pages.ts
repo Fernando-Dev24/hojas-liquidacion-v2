@@ -1,9 +1,11 @@
+import { Timestamp } from 'firebase/firestore'
+
 export interface ObservationPage {
   amount: number
   category: 'PAQUETES' | 'FINANCIERO'
   created: number
   createdBy: string
-  date: Date
+  date: Date | Timestamp
   department: string
   filledBy: string
   infra: string

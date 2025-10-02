@@ -1,4 +1,4 @@
-import { formatDate, formatWithThousand } from '@renderer/helpers'
+import { formatFirebaseDate, formatWithThousand } from '@renderer/helpers'
 import { ObservationPage } from '@renderer/interfaces'
 import { FiEye } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
@@ -23,7 +23,7 @@ export const GridItem = ({ data }: Props) => {
       <td className="px-6 py-4">{data.department}</td>
       <td className="px-6 py-4">{formatWithThousand(data.amount)}</td>
       <td className="px-6 py-4">{data.createdBy}</td>
-      {<td className="px-6 py-4">{formatDate(data.date)}</td>}
+      {<td className="px-6 py-4">{formatFirebaseDate(data.date)}</td>}
       <td className="px-6 py-4 text-right">
         <button
           className="flex items-center py-2 px-4 rounded bg-gray-600 cursor-pointer hover:bg-secondary/90 duration-150"
