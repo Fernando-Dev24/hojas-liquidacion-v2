@@ -1,8 +1,10 @@
-import { generateUUID } from '@renderer/helpers'
-import { Observation, ObservationPageFormValues } from '@renderer/interfaces'
 import { ChangeEvent } from 'react'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { Timestamp } from 'firebase/firestore'
+import { generateUUID } from '@renderer/helpers'
+import { INFRAS } from '@renderer/data/infras/infras'
+import { Observation, ObservationPage, ObservationPageFormValues } from '@renderer/interfaces'
 
 export type Evt = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
 
@@ -18,21 +20,27 @@ interface State {
   insertItem: () => void
   updateItem: ({ id, evt }: UpdateItem) => void
   deleteItem: (id: string) => void
+  setForm: (data: ObservationPage) => void
+  reset: () => void
+}
+
+const formInitialState = {
+  id: null,
+  reportId: null,
+  infra: '',
+  date: new Date(),
+  school_name: '',
+  department: '',
+  amount: 0,
+  filledBy: '',
+  category: 'PAQUETES' as const,
+  observations: []
 }
 
 export const useUpdateForm = create<State>()(
   devtools((set, get) => ({
     form: {
-      id: null,
-      reportId: null,
-      infra: '',
-      date: new Date(),
-      school_name: '',
-      department: '',
-      amount: 0,
-      filledBy: '',
-      category: 'PAQUETES',
-      observations: []
+      ...formInitialState
     },
 
     /* FUNCTIONS */
@@ -40,12 +48,33 @@ export const useUpdateForm = create<State>()(
       const { form } = get()
       const { name, value } = evt.target
 
-      set({
-        form: {
-          ...form,
-          [name]: value
+      if (name === 'infra') {
+        const item = INFRAS.find((infra) => infra.code === Number(value))
+        if (item) {
+          set({
+            form: {
+              ...form,
+              infra: value,
+              school_name: item.name
+            }
+          })
+        } else {
+          set({
+            form: {
+              ...form,
+              infra: value,
+              school_name: ''
+            }
+          })
         }
-      })
+      } else {
+        set({
+          form: {
+            ...form,
+            [name]: value
+          }
+        })
+      }
     },
 
     updateDate: (date: Date) => {
@@ -106,6 +135,23 @@ export const useUpdateForm = create<State>()(
         form: {
           ...form,
           observations: form.observations.filter((item) => item.id !== id)
+        }
+      })
+    },
+
+    setForm: (data: ObservationPage) => {
+      set({
+        form: {
+          ...data,
+          date: data.date instanceof Timestamp ? data.date.toDate() : data.date
+        }
+      })
+    },
+
+    reset: () => {
+      set({
+        form: {
+          ...formInitialState
         }
       })
     }

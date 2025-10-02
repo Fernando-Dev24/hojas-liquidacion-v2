@@ -2,14 +2,34 @@ import { confirmAlert } from 'react-confirm-alert'
 import { FiLogOut, FiSave } from 'react-icons/fi'
 import type { NavigateFunction } from 'react-router-dom'
 import type { ObservationPageFormValues } from '@renderer/interfaces'
+import { onSave } from '@renderer/app/actions/observation/onSave'
+import { toast } from 'react-toastify'
 
-interface Props {
+interface Params {
   form: ObservationPageFormValues
+  reset: () => void
   navigate: NavigateFunction
-  onSave: () => void
+  action: 'create' | 'update'
 }
 
-export const handleSaveAndExit = () => {
+export const handleSaveAndExit = ({ form, action, reset, navigate }: Params) => {
+  const handleSave = async () => {
+    const { ok, message } = await onSave({ data: { ...form }, action })
+    if (!ok) {
+      toast.error(message ?? 'Error al ejecutar la acción')
+      return
+    }
+
+    reset()
+    toast.success(message ?? 'Acción completada correctamente')
+    navigate('/app/home', { replace: true })
+  }
+
+  const handleExit = async () => {
+    reset()
+    navigate('/app/home', { replace: true })
+  }
+
   confirmAlert({
     customUI: ({ onClose }) => {
       return (
@@ -19,12 +39,21 @@ export const handleSaveAndExit = () => {
           <div className="flex items-center">
             <button
               className="btn-confirm !bg-blue-600 hover:!bg-blue-600/90 mr-5"
-              onClick={onClose}
+              onClick={() => {
+                handleSave()
+                onClose()
+              }}
             >
               <FiSave size={20} className="mr-2" />
               Si, guardar
             </button>
-            <button className="btn-confirm" onClick={onClose}>
+            <button
+              className="btn-confirm"
+              onClick={() => {
+                handleExit()
+                onClose()
+              }}
+            >
               <FiLogOut size={20} className="mr-2" />
               No, salir sin guardar
             </button>

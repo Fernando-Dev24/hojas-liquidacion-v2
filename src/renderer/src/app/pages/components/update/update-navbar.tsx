@@ -8,13 +8,17 @@ const button_class =
   'flex items-center p-3 rounded-md border border-neutral-200 text-slate-500 duration-150 hover:bg-secondary hover:text-white shadow'
 
 export const UpdateNavbar = () => {
-  const navigate = useNavigate()
   const toggleModal = useModals((state) => state.toggleModal)
-  const form = useUpdateForm((state) => state.form)
+  const { form, reset } = useUpdateForm((state) => state)
+  const navigate = useNavigate()
 
   const handleExit = () => {
-    //navigate('/app/home', { replace: true })
-    handleSaveAndExit()
+    handleSaveAndExit({
+      form,
+      reset,
+      navigate,
+      action: form.id ? 'update' : 'create'
+    })
   }
 
   const viewPDF = () => {
@@ -23,7 +27,7 @@ export const UpdateNavbar = () => {
 
   return (
     <nav className="py-10 flex justify-between items-center">
-      <button className={button_class} onClick={handleSaveAndExit}>
+      <button className={button_class} onClick={handleExit}>
         <FiArrowLeft size={20} className="mr-3" />
         Regresar
       </button>

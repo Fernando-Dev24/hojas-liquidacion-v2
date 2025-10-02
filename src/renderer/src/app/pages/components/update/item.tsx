@@ -1,6 +1,7 @@
 import { handleConfirmDelete } from '@renderer/helpers'
 import { Observation } from '@renderer/interfaces'
 import { Evt, useUpdateForm } from '@renderer/store'
+import clsx from 'clsx'
 import { useState } from 'react'
 import { FiChevronDown, FiChevronRight, FiPlus, FiTrash } from 'react-icons/fi'
 
@@ -20,7 +21,11 @@ export const Item = (data: Observation) => {
 
   return (
     <section className="relative p-10 rounded bg-gray-50/50 border border-gray-200 shadow mb-10">
-      <div className="absolute top-10 left-10 flex flex-col gap-y-5">
+      <div
+        className={clsx('absolute top-10 left-10 flex flex-col gap-y-5', {
+          '-translate-y-4.5': !isExpanded
+        })}
+      >
         <button
           type="button"
           className="p-2 rounded border border-gray-300 shadow hover:bg-gray-200 duration-150"

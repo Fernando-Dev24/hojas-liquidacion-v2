@@ -11,7 +11,7 @@ export interface ObservationPage {
   infra: string
   observations: Observation[]
   id: string
-  reportId: string
+  reportId: number
   school_name: string
 }
 
@@ -24,15 +24,17 @@ export interface Observation {
 
 export interface ObservationPageFormValues {
   id: string | null
-  reportId: string | null
+  reportId: number | null
   infra: string
   date: Date
   school_name: string
   department: string
-  amount: number
+  amount: number | string
   filledBy: string
   category: 'PAQUETES' | 'FINANCIERO'
   observations: Observation[]
+  created?: number | null
+  createdBy?: string | null
 }
 
 export interface UpdateFormValues {

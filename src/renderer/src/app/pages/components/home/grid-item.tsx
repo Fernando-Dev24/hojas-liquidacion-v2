@@ -1,5 +1,6 @@
 import { formatFirebaseDate, formatWithThousand } from '@renderer/helpers'
 import { ObservationPage } from '@renderer/interfaces'
+import { useUpdateForm } from '@renderer/store'
 import { FiEye } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 
@@ -9,8 +10,10 @@ interface Props {
 
 export const GridItem = ({ data }: Props) => {
   const navigate = useNavigate()
+  const setForm = useUpdateForm((state) => state.setForm)
 
   const handleNavigate = () => {
+    setForm(data)
     navigate(`/app/update/${data.id}`, { replace: true })
   }
 

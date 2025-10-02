@@ -1,5 +1,3 @@
-import { generateUUID } from '@renderer/helpers'
-import { Observation } from '@renderer/interfaces'
 import { PDFProps } from '../observation-page'
 
 export const ObservationsReport = ({ pdfSchema, form }: PDFProps) => {
@@ -10,7 +8,7 @@ export const ObservationsReport = ({ pdfSchema, form }: PDFProps) => {
   const body = pdfSchema.body
 
   return (
-    <section className="mt-3 h-[515px] max-h-[515px] border-b border-secondary overflow-y-hidden">
+    <section className="mt-3 h-[515px] max-h-[515px] overflow-y-hidden">
       <table className="w-full overflow-y-hidden border border-secondary">
         <thead>
           <tr>

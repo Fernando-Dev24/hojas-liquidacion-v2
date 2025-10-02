@@ -1,14 +1,20 @@
 import { FiPlus, FiUsers, FiLogOut } from 'react-icons/fi'
 import el_salvador_logo from '../../../../../../../public/el-salvador-logo.svg'
 import { useLogin } from '@renderer/store'
+import { useNavigate } from 'react-router-dom'
 
 export const Navbar = () => {
   const reset = useLogin((state) => state.reset)
+  const navigate = useNavigate()
 
   const onSignOut = () => {
     localStorage.removeItem('username')
     localStorage.removeItem('password')
     reset()
+  }
+
+  const createNewPage = () => {
+    navigate('/app/update/new', { replace: true })
   }
 
   return (
@@ -26,6 +32,7 @@ export const Navbar = () => {
         <button
           type="button"
           className="flex items-center py-3 px-8 bg-white text-secondary font-medium rounded-full border border-neutral-300 hover:border-secondary duration-150 shadow"
+          onClick={createNewPage}
         >
           <FiPlus size={20} className="mr-3" />
           Nueva hoja de observaciones
