@@ -1,5 +1,5 @@
 import { handleSaveAndExit } from '@renderer/helpers'
-import { useUpdateForm } from '@renderer/store'
+import { useLogin, useUpdateForm } from '@renderer/store'
 import { useModals } from '@renderer/store/modal-store'
 import { FiArrowLeft, FiFile, FiTrash } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
@@ -10,14 +10,16 @@ const button_class =
 export const UpdateNavbar = () => {
   const toggleModal = useModals((state) => state.toggleModal)
   const { form, reset } = useUpdateForm((state) => state)
+  const user = useLogin((state) => state.user)
   const navigate = useNavigate()
 
   const handleExit = () => {
     handleSaveAndExit({
       form,
+      username: user?.username ?? '',
+      action: form.id ? 'update' : 'create',
       reset,
-      navigate,
-      action: form.id ? 'update' : 'create'
+      navigate
     })
   }
 

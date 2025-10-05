@@ -25,7 +25,7 @@ export const GridItem = ({ data }: Props) => {
       </th>
       <td className="px-6 py-4">{data.department}</td>
       <td className="px-6 py-4">{formatWithThousand(data.amount)}</td>
-      <td className="px-6 py-4">{data.createdBy}</td>
+      <td className="px-6 py-4 capitalize">{data.createdBy}</td>
       {<td className="px-6 py-4">{formatFirebaseDate(data.date)}</td>}
       <td className="px-6 py-4 text-right">
         <button

@@ -1,39 +1,25 @@
 import z from 'zod'
 import type { ObservationPageFormValues } from '@renderer/interfaces'
-import { toast } from 'react-toastify'
 import { dbPromise } from '@renderer/config/firebase'
-import { doc, updateDoc } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { getUnixTime } from 'date-fns'
 
 interface Params {
   data: ObservationPageFormValues
+  username: string
   action: 'create' | 'update'
 }
 
-/* SCHEMA DE OBSERVATION ITEM */
-const observation_item_schema = z.object({
-  id: z.string(),
-  observation_content: z.string(),
-  observation_place: z.string(),
-  observation_state: z.string()
-})
-
 /* VALIDAR SI LA ESTRUCTURA DEL OBJETO ES LA VALIDA */
 const data_schema = z.object({
-  id: z.string().nullable(),
-  reportId: z.number().nullable(),
   infra: z.string().min(1),
   date: z.date(),
   school_name: z.string().min(1),
   department: z.string().min(1),
-  amount: z.string().min(1),
-  filledBy: z.string().min(1),
-  category: z.enum(['PAQUETES', 'FINANCIERO']),
-  observations: z.array(observation_item_schema),
-  created: z.number().nullable(),
-  createdBy: z.string().nullable()
+  amount: z.string().min(1)
 })
 
-export const onSave = async ({ data, action }: Params) => {
+export const onSave = async ({ data, username, action }: Params) => {
   // VALIDAR SI LA ESTRUCTURA DEL OBJETO ES LA VALIDA, NO IMPORTA SI ES PARA CREAR O PARA VALIDAR
   const validation = data_schema.safeParse({
     ...data,
@@ -47,7 +33,13 @@ export const onSave = async ({ data, action }: Params) => {
     }
   }
 
-  if (action === 'update') await onUpdate(validation.data)
+  const completeData = {
+    ...validation.data,
+    ...data
+  }
+
+  if (action === 'update') await onUpdate(completeData)
+  if (action === 'create') await onCreate(completeData, username)
   return {
     ok: true,
     message: `${action === 'update' ? 'Actualizado' : 'Creado'} correctamente`
@@ -65,5 +57,38 @@ export const onUpdate = async (data: any) => {
     return
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const onCreate = async (data: any, username: string) => {
+  // ELIMINAMOS EL FIELD DE ID, REPORTID,
+  delete data.id
+  delete data.reportId
+
+  try {
+    // Obtenemos el correlativo a usar de la base de datos
+    const db = await dbPromise
+    const docRef = doc(db, 'correlativo', 'correlativo_hojas')
+    const correlativoDoc = await getDoc(docRef)
+    let resp = correlativoDoc.data()
+
+    const newReportData = {
+      ...data,
+      reportId: resp?.correlativo,
+      createdBy: username,
+      createdAt: getUnixTime(new Date())
+    }
+
+    const collectionRef = collection(db, 'observations_pages')
+    await addDoc(collectionRef, newReportData)
+    await updateDoc(docRef, { correlativo: resp?.correlativo + 1 })
+
+    return
+  } catch (error) {
+    console.log(error)
+    return {
+      ok: false,
+      message: 'Error al crear la hoja'
+    }
   }
 }

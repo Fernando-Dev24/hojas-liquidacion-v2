@@ -7,14 +7,16 @@ import { toast } from 'react-toastify'
 
 interface Params {
   form: ObservationPageFormValues
+  username: string
+  action: 'create' | 'update'
   reset: () => void
   navigate: NavigateFunction
-  action: 'create' | 'update'
 }
 
-export const handleSaveAndExit = ({ form, action, reset, navigate }: Params) => {
+export const handleSaveAndExit = ({ form, action, username, reset, navigate }: Params) => {
   const handleSave = async () => {
-    const { ok, message } = await onSave({ data: { ...form }, action })
+    if (!username) return
+    const { ok, message } = await onSave({ data: { ...form }, username, action })
     if (!ok) {
       toast.error(message ?? 'Error al ejecutar la acción')
       return
