@@ -3,16 +3,18 @@ import { getPaginatedData } from '@renderer/app/actions'
 import { Pagination } from '@renderer/components'
 import { useObservationsStore } from '@renderer/store'
 import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
 export const PagesGrid = () => {
-  const { currentPage } = useObservationsStore((state) => state)
+  const { currentPage, totalPages, setObservations, setTotalPages, triggerCurrentPage } =
+    useObservationsStore((state) => state)
 
   const {
     data: resp,
     isLoading,
     error
   } = useQuery({
-    queryKey: ['observations-pages'],
+    queryKey: ['observations-pages', currentPage],
     queryFn: () =>
       getPaginatedData({
         collName: 'observations_pages',
@@ -20,6 +22,13 @@ export const PagesGrid = () => {
         take: 25
       })
   })
+
+  useEffect(() => {
+    if (resp) {
+      setObservations(resp?.data ?? [])
+      setTotalPages(resp?.totalPages)
+    }
+  }, [, currentPage, isLoading])
 
   if (isLoading || !resp?.data) return <p>Cargando...</p>
   if (error) return <p>Error al obtener los datos</p>
@@ -60,7 +69,11 @@ export const PagesGrid = () => {
           </tbody>
         </table>
         <div className="px-6 py-5 text-white inset-shadow-teal-50 bg-secondary/85 border-t border-secondary/85">
-          <Pagination totalPages={50} currentPage={1} />
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            triggerCurrentPage={triggerCurrentPage}
+          />
         </div>
       </div>
     </article>

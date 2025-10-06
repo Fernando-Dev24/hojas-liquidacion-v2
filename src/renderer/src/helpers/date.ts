@@ -12,3 +12,7 @@ export const formatFirebaseDate = (date: Timestamp | Date) => {
 
   return ''
 }
+
+export const formatNowDate = (date = new Date()) => {
+  return format(date, 'dd-MM-yyyy')
+}

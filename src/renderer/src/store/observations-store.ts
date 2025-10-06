@@ -9,7 +9,8 @@ interface State {
 
   /* FUNCTIONS */
   setObservations: (observations: ObservationPage[]) => void
-  setPagination: (totalPages: number, currentPage: number) => void
+  setTotalPages: (totalPages: number) => void
+  triggerCurrentPage: (action: 'next' | 'prev' | 'reset') => void
 }
 
 const initialState = {
@@ -19,10 +20,30 @@ const initialState = {
 }
 
 export const useObservationsStore = create<State>()(
-  devtools((set) => ({
+  devtools((set, get) => ({
     ...initialState,
 
     setObservations: (observations: ObservationPage[]) => set({ observations }),
-    setPagination: (totalPages: number, currentPage: number) => set({ totalPages, currentPage })
+    setTotalPages: (totalPages: number) => {
+      set({ totalPages })
+    },
+    triggerCurrentPage: (action: 'next' | 'prev' | 'reset') => {
+      const { currentPage } = get()
+
+      switch (action) {
+        case 'next':
+          set({ currentPage: currentPage + 1 })
+          break
+        case 'prev':
+          set({ currentPage: currentPage - 1 })
+          break
+        case 'reset':
+          set({ currentPage: 1 })
+          break
+        default:
+          set({ currentPage: 1 })
+          break
+      }
+    }
   }))
 )

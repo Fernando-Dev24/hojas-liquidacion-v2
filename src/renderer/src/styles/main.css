@@ -54,7 +54,7 @@ textarea {
 
 /* BTNS CONFIRM DIALOG */
 button.btn-confirm {
-  @apply p-3 flex items-center rounded bg-secondary text-white shadow-sm mr-5 last:mr-0 cursor-pointer hover:bg-secondary/90 duration-150;
+  @apply p-3 flex items-center rounded bg-secondary text-white shadow-sm last:mr-0 cursor-pointer hover:bg-secondary/90 duration-150;
 }
 
 /* MODALS */
@@ -155,5 +155,35 @@ button.btn {
 /* PAGINATION */
 button.btn-pagination {
   @apply p-2 border rounded border-secondary/85 bg-secondary/90 shadow
-  disabled:cursor-not-allowed disabled:opacity-50;
+  disabled:cursor-not-allowed disabled:opacity-50 duration-150 hover:bg-secondary/80 cursor-pointer;
+}
+
+/* HANDLE CONFIRM DIV STYLES */
+div.confirm-alert-wrapper {
+  @apply p-20 rounded bg-white border border-gray-200 shadow-md;
+}
+
+div.confirm-alert-wrapper h2 {
+  @apply font-semibold text-3xl text-secondary;
+}
+
+div.confirm-alert-wrapper p {
+  @apply text-gray-600 mb-5;
+}
+
+/* CONSOLIDADO TABLE */
+section.consolidado-table {
+  @apply w-full;
+}
+
+section.consolidado-table table {
+  @apply w-full border border-black text-center;
+}
+
+section.consolidado-table table thead tr th {
+  @apply p-2 border-x border-black uppercase;
+}
+
+section.consolidado-table table tbody tr td {
+  @apply p-2 border-b border-x border-black uppercase;
 }

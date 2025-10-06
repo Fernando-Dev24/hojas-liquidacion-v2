@@ -3,7 +3,7 @@ import { Router } from './app/router/router'
 import { Bounce, ToastContainer } from 'react-toastify'
 
 /* COMPONENTS */
-import { PDFWrapper } from './docs'
+import { PDFWrapper, ConsolidadoWrapper } from './docs'
 
 /* STYLES */
 import './styles/main.css'
@@ -21,6 +21,7 @@ function App() {
       <HashRouter>
         <QueryClientProvider client={queryClient}>
           <PDFWrapper id="pdfModal" />
+          <ConsolidadoWrapper id="consolidadoModal" />
           <ToastContainer
             position="bottom-right"
             autoClose={5000}

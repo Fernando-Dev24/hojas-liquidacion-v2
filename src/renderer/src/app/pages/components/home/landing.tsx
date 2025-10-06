@@ -1,8 +1,17 @@
-import { useLogin } from '@renderer/store'
+import { handleFilterConsolidado } from '@renderer/helpers'
+import { useLogin, useModals } from '@renderer/store'
 import { FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
 
 export const Landing = () => {
   const user = useLogin((state) => state.user)
+  const { toggleModal, setFilterBy } = useModals((state) => state)
+
+  const renderConsolidado = () => {
+    handleFilterConsolidado({
+      setFilterBy,
+      toggleModal
+    })
+  }
 
   return (
     <section className="container mt-30">
@@ -22,7 +31,10 @@ export const Landing = () => {
           Agenda
         </button>
 
-        <button className="flex items-center py-3 px-5 shadow rounded bg-secondary text-white duration-150 hover:opacity-90">
+        <button
+          className="flex items-center py-3 px-5 shadow rounded bg-secondary text-white duration-150 hover:opacity-90"
+          onClick={renderConsolidado}
+        >
           <FiFile size={20} className="mr-3" />
           Consolidado
         </button>

@@ -1,6 +1,14 @@
 import { dbPromise } from '@renderer/config/firebase'
 import { ObservationPage } from '@renderer/interfaces'
-import { collection, getDocs, limit, orderBy, query, startAfter } from 'firebase/firestore'
+import {
+  collection,
+  getCountFromServer,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  startAfter
+} from 'firebase/firestore'
 
 interface Params {
   page: number
@@ -46,15 +54,22 @@ export const getPaginatedData = async ({ page, take, collName }: Params) => {
       }
     })
 
+    // Calcular el total de paginas segun la cantidad total de elementos en la coleccion
+    const countSnapshot = await getCountFromServer(collectionRef)
+    const total = countSnapshot.data().count
+    const totalPages = Math.ceil(total / take)
+
     return {
       ok: true,
-      data
+      data,
+      totalPages
     }
   } catch (error) {
     console.log(error)
     return {
       ok: false,
-      data: null
+      data: null,
+      totalPages: 0
     }
   }
 }

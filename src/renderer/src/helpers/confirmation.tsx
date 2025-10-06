@@ -10,7 +10,7 @@ export const handleConfirmDelete = ({ id, deleteItem }: Props) => {
   confirmAlert({
     customUI: ({ onClose }) => {
       return (
-        <div className="p-20 rounded bg-white border border-gray-200 shadow-md">
+        <div className="confirm-alert-wrapper">
           <h2 className="font-semibold text-3xl text-secondary">Confirmación</h2>
           <p className="text-gray-600 mb-5">¿Quieres eliminar este elemento?</p>
           <div className="flex items-center">

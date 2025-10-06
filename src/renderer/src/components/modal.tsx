@@ -1,10 +1,10 @@
-import { useModals } from '@renderer/store/modal-store'
+import { State, useModals } from '@renderer/store/modal-store'
 import ReactModal from 'react-modal'
 
 ReactModal.setAppElement('#root')
 
 interface Props {
-  id: string
+  id: keyof State['modals']
   children: React.ReactNode
   [x: string]: any
 }
