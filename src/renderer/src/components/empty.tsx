@@ -1,22 +1,27 @@
 import { FiPlus } from 'react-icons/fi'
-import { TbMoodEmpty } from 'react-icons/tb'
+import emptyIllustration from '../../../../public/empty-illustrator.svg'
 
 interface Props {
-  fn: () => void
+  renderBtn: boolean
+  fn?: () => void
 }
 
-export const Empty = ({ fn }: Props) => {
+export const Empty = ({ renderBtn, fn }: Props) => {
   return (
     <div className="flex flex-col justify-center items-center">
-      <h2 className="text-3xl text-secondary font-medium">No hay nada para mostrar aquí</h2>
-      <TbMoodEmpty size={60} className="my-5 text-secondary" />
-      <button
-        className="flex items-center p-3 rounded text-white bg-secondary hover:bg-secondary/90 duration-150 cursor-pointer"
-        onClick={fn}
-      >
-        <FiPlus size={20} className="mr-3" />
-        Agregar item
-      </button>
+      <figure className="w-[200px]">
+        <img src={emptyIllustration} alt="Empty Illustration" className="w-full block mx-auto" />
+      </figure>
+      <p className="my-5 text-gray-600">No hay datos para mostrar</p>
+      {renderBtn && (
+        <button
+          className="flex items-center p-3 rounded text-white bg-secondary hover:bg-secondary/90 duration-150 cursor-pointer"
+          onClick={fn}
+        >
+          <FiPlus size={20} className="mr-3" />
+          Agregar item
+        </button>
+      )}
     </div>
   )
 }

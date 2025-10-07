@@ -1,16 +1,8 @@
 import { formatWithThousand } from '@renderer/helpers'
 import { useObservationsStore } from '@renderer/store'
-import { useEffect, useState } from 'react'
-import { calculateTotalDebt } from '../helpers/calculate-total-debt'
 
 export const ConsolidadoTotal = () => {
-  const observations = useObservationsStore((state) => state.observations)
-  const [totalDebt, setTotalDebt] = useState(0)
-
-  useEffect(() => {
-    const total = calculateTotalDebt(observations)
-    setTotalDebt(total)
-  }, [setTotalDebt])
+  const totalDebt = useObservationsStore((state) => state.totalDebt)
 
   return (
     <section className="my-5">

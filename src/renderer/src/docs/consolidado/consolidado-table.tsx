@@ -1,21 +1,8 @@
 import { formatWithThousand } from '@renderer/helpers'
-import { ObservationPage } from '@renderer/interfaces'
-import { useModals, useObservationsStore } from '@renderer/store'
-import { useEffect, useState } from 'react'
-import { orderObservationsByFilter } from '../helpers/orderObservations'
+import { useObservationsStore } from '@renderer/store'
 
 export const ConsolidadoTable = () => {
-  const observations = useObservationsStore((state) => state.observations)
-  const { filterBy, orderBy } = useModals((state) => state)
-  const [orderedObservations, setOrderedObservations] = useState<ObservationPage[]>([])
-
-  useEffect(() => {
-    orderObservationsByFilter({
-      filterBy,
-      orderBy,
-      observations
-    })
-  }, [orderBy])
+  const observations = useObservationsStore((state) => state.orderedObservations)
 
   return (
     <section className="consolidado-table">

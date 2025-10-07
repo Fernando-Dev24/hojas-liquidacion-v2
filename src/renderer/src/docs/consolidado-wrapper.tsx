@@ -2,13 +2,13 @@ import { FiArrowDown, FiArrowUp, FiFile } from 'react-icons/fi'
 import { Modal } from '@renderer/components'
 import type { ModalProps } from '@renderer/interfaces'
 import { ConsolidadoPage } from './consolidado-page'
-import { useModals } from '@renderer/store'
+import { useObservationsStore } from '@renderer/store'
 import { exportConsolidadoFile } from './helpers/export-consolidado'
 
 interface Props extends ModalProps {}
 
 export const ConsolidadoWrapper = ({ id }: Props) => {
-  const { filterBy, orderBy, setOrder } = useModals((state) => state)
+  const { filterBy, orderBy, setOrder } = useObservationsStore((state) => state)
 
   const createPDF = () => {
     exportConsolidadoFile({ filter: filterBy })

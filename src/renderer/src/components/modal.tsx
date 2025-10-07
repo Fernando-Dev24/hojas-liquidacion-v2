@@ -1,21 +1,22 @@
-import { State, useModals } from '@renderer/store/modal-store'
+import { useModals, type ModalState } from '@renderer/store/modal-store'
 import ReactModal from 'react-modal'
 
 ReactModal.setAppElement('#root')
 
 interface Props {
-  id: keyof State['modals']
+  id: keyof ModalState['modals']
+  customCloseFn?: () => void
   children: React.ReactNode
   [x: string]: any
 }
 
-export const Modal = ({ id, children, ...props }: Props) => {
+export const Modal = ({ id, customCloseFn, children, ...props }: Props) => {
   const { modals, toggleModal } = useModals((state) => state)
 
   return (
     <ReactModal
       isOpen={!!modals[id]}
-      onRequestClose={() => toggleModal(id)}
+      onRequestClose={() => (customCloseFn ? customCloseFn() : toggleModal(id))}
       closeTimeoutMS={200}
       overlayClassName="modal-background"
       {...props}

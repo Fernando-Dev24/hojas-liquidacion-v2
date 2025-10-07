@@ -1,10 +1,11 @@
 import { handleFilterConsolidado } from '@renderer/helpers'
-import { useLogin, useModals } from '@renderer/store'
+import { useLogin, useModals, useObservationsStore } from '@renderer/store'
 import { FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
 
 export const Landing = () => {
   const user = useLogin((state) => state.user)
-  const { toggleModal, setFilterBy } = useModals((state) => state)
+  const setFilterBy = useObservationsStore((state) => state.setFilterBy)
+  const { toggleModal } = useModals((state) => state)
 
   const renderConsolidado = () => {
     handleFilterConsolidado({
@@ -12,6 +13,8 @@ export const Landing = () => {
       toggleModal
     })
   }
+
+  const showSearchModal = () => toggleModal('searchObservationModal')
 
   return (
     <section className="container mt-30">
@@ -21,7 +24,10 @@ export const Landing = () => {
       </h3>
 
       <nav className="my-10 flex justify-center items-center gap-x-5">
-        <button className="flex items-center py-3 px-5 shadow rounded bg-secondary text-white duration-150 hover:opacity-90">
+        <button
+          className="flex items-center py-3 px-5 shadow rounded bg-secondary text-white duration-150 hover:opacity-90"
+          onClick={showSearchModal}
+        >
           <FiSearch size={20} className="mr-3" />
           Buscar
         </button>

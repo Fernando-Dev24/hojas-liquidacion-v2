@@ -1,8 +1,25 @@
 import { DocHeader } from './doc-header'
 import { ConsolidadoTotal } from './consolidado/consolidado-total'
 import { ConsolidadoTable } from './consolidado/consolidado-table'
+import { useObservationsStore } from '@renderer/store'
+import { useEffect } from 'react'
+import { orderObservationsByFilter } from './helpers/orderObservations'
 
 export const ConsolidadoPage = () => {
+  const { observations, filterBy, orderBy, setConsolidadoData } = useObservationsStore(
+    (state) => state
+  )
+
+  useEffect(() => {
+    const { filteredObs, total } = orderObservationsByFilter({
+      filterBy,
+      orderBy,
+      observations
+    })
+
+    setConsolidadoData(filteredObs, total)
+  }, [orderBy])
+
   return (
     <section>
       <article className="page" id="page">

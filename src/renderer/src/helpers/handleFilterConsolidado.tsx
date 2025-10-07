@@ -1,10 +1,10 @@
-import { State } from '@renderer/store'
+import { ObservationState } from '@renderer/store'
 import { confirmAlert } from 'react-confirm-alert'
 import { FiPackage, FiX } from 'react-icons/fi'
 import { MdAttachMoney } from 'react-icons/md'
 
 interface Params {
-  setFilterBy: (filter: State['filterBy']) => void
+  setFilterBy: (filter: ObservationState['filterBy']) => void
   toggleModal: (id: 'pdfModal' | 'consolidadoModal') => void
 }
 

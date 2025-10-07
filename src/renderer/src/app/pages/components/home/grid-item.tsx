@@ -1,21 +1,14 @@
 import { formatFirebaseDate, formatWithThousand } from '@renderer/helpers'
 import { ObservationPage } from '@renderer/interfaces'
-import { useUpdateForm } from '@renderer/store'
 import { FiEye } from 'react-icons/fi'
-import { useNavigate } from 'react-router-dom'
+import { useItem } from '../../home/hooks'
 
 interface Props {
   data: ObservationPage
 }
 
 export const GridItem = ({ data }: Props) => {
-  const navigate = useNavigate()
-  const setForm = useUpdateForm((state) => state.setForm)
-
-  const handleNavigate = () => {
-    setForm(data)
-    navigate(`/app/update/${data.id}`, { replace: true })
-  }
+  const { handleNavigate } = useItem(data)
 
   return (
     <tr className="border-b bg-secondary border-gray-700 hover:bg-secondary/90 text-white duration-150">

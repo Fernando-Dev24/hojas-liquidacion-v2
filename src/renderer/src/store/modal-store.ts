@@ -1,49 +1,31 @@
 import { create } from 'zustand'
 
-export interface State {
+export interface ModalState {
   modals: {
     pdfModal: false
     consolidadoModal: false
+    searchObservationModal: false
   }
-  filterBy: 'PAQUETES' | 'FINANCIERO'
-  orderBy: 'ASC' | 'DESC'
 
   // FUNCTIONS
-  toggleModal: (id: keyof State['modals']) => void
-  setFilterBy: (filter: State['filterBy']) => void
-  setOrder: () => void
+  toggleModal: (id: keyof ModalState['modals']) => void
 }
 
-export const useModals = create<State>((set, get) => ({
+export const useModals = create<ModalState>((set, get) => ({
   modals: {
     pdfModal: false,
-    consolidadoModal: false
+    consolidadoModal: false,
+    searchObservationModal: false
   },
-  filterBy: 'PAQUETES',
-  orderBy: 'DESC',
 
   /* FUNCTIONS */
-  toggleModal: (id: string) => {
+  toggleModal: (id: keyof ModalState['modals']) => {
     const { modals } = get()
     set({
       modals: {
         ...modals,
         [id]: !modals[id]
       }
-    })
-  },
-
-  setFilterBy: (filter) => {
-    set({
-      filterBy: filter
-    })
-  },
-
-  setOrder: () => {
-    const { orderBy } = get()
-
-    set({
-      orderBy: orderBy === 'ASC' ? 'DESC' : 'ASC'
     })
   }
 }))

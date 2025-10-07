@@ -1,4 +1,4 @@
-import { Navbar, Landing, PagesGrid } from '../../components'
+import { Navbar, Landing, PagesGrid, SearchObservationModal } from '../../components'
 
 export const HomePage = () => {
   return (
@@ -6,6 +6,7 @@ export const HomePage = () => {
       <Navbar />
       <Landing />
       <PagesGrid />
+      <SearchObservationModal id="searchObservationModal" />
     </section>
   )
 }

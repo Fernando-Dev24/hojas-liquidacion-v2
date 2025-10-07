@@ -2,7 +2,7 @@ import { confirmAlert } from 'react-confirm-alert'
 import { FiLogOut, FiSave } from 'react-icons/fi'
 import type { NavigateFunction } from 'react-router-dom'
 import type { ObservationPageFormValues } from '@renderer/interfaces'
-import { onSave } from '@renderer/app/actions/observation/onSave'
+import { onSave } from '@renderer/app/actions'
 import { toast } from 'react-toastify'
 
 interface Params {

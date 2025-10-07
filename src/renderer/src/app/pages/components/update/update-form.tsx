@@ -31,7 +31,7 @@ export const UpdateForm = () => {
 
         <article className="my-10">
           {form.observations.length < 1 ? (
-            <Empty fn={insertItem} />
+            <Empty renderBtn={true} fn={insertItem} />
           ) : (
             <>
               <div className="py-10">

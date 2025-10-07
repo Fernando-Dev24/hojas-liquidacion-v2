@@ -49,7 +49,7 @@ textarea {
 }
 
 .datepicker {
-  width: 100%;
+  width: 100% !important;
 }
 
 /* BTNS CONFIRM DIALOG */
@@ -99,7 +99,7 @@ button.btn-confirm {
 }
 
 .modal {
-  @apply overflow-y-scroll outline-none rounded-lg shadow-lg text-neutral-800 bg-white dark:text-white dark:bg-neutral-800;
+  @apply overflow-y-auto outline-none rounded-lg shadow-lg text-neutral-800 bg-white;
 }
 
 /* PAGE STYLES */
@@ -186,4 +186,9 @@ section.consolidado-table table thead tr th {
 
 section.consolidado-table table tbody tr td {
   @apply p-2 border-b border-x border-black uppercase;
+}
+
+/* SEARCH MODAL INPUT */
+input.search-modal-input {
+  @apply w-full py-3 px-5 outline-none rounded shadow-md bg-white border border-gray-300 duration-150 focus:border-gray-400 hover:border-gray-400;
 }
