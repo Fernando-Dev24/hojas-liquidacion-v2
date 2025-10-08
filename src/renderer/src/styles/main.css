@@ -192,3 +192,17 @@ section.consolidado-table table tbody tr td {
 input.search-modal-input {
   @apply w-full py-3 px-5 outline-none rounded shadow-md bg-white border border-gray-300 duration-150 focus:border-gray-400 hover:border-gray-400;
 }
+
+/* NAVBAR BUTTON */
+button.button_class {
+  @apply flex items-center p-3 rounded-md border border-neutral-200 text-slate-500 duration-150 hover:bg-secondary hover:text-white shadow;
+}
+
+/* ADMIN PANEL */
+div.admin-panel-wrapper {
+  @apply h-[500px] max-h-[800px] p-12 rounded-4xl border border-gray-300 shadow-xl bg-white;
+}
+
+div.config-option {
+  @apply flex justify-between items-baseline py-4 px-8 rounded border border-gray-300 bg-gray-300/40;
+}

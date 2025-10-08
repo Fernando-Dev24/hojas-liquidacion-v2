@@ -13,6 +13,10 @@ export const Navbar = () => {
     reset()
   }
 
+  const goToAdmin = () => {
+    navigate('/app/admin', { replace: true })
+  }
+
   const createNewPage = () => {
     navigate('/app/update/new', { replace: true })
   }
@@ -40,7 +44,10 @@ export const Navbar = () => {
       </article>
 
       <article className="flex items-center gap-x-3">
-        <button className="py-2 px-4 rounded-md border border-white hover:bg-white hover:text-secondary duration-150">
+        <button
+          className="py-2 px-4 rounded-md border border-white hover:bg-white hover:text-secondary duration-150"
+          onClick={goToAdmin}
+        >
           <FiUsers size={20} />
         </button>
 
