@@ -1,4 +1,5 @@
-import { handleSaveAndExit } from '@renderer/helpers'
+import { onDelete } from '@renderer/app/actions'
+import { handleConfirmDelete, handleSaveAndExit } from '@renderer/helpers'
 import { useLogin, useUpdateForm } from '@renderer/store'
 import { useModals } from '@renderer/store/modal-store'
 import { FiArrowLeft, FiFile, FiTrash } from 'react-icons/fi'
@@ -23,6 +24,15 @@ export const UpdateNavbar = () => {
     })
   }
 
+  const handleDelete = async () => {
+    handleConfirmDelete({
+      id: form.id ?? '',
+      path: '/app/home',
+      deleteItem: onDelete,
+      navigate
+    })
+  }
+
   const viewPDF = () => {
     toggleModal('pdfModal')
   }
@@ -38,6 +48,7 @@ export const UpdateNavbar = () => {
         <article className="flex items-center gap-x-5">
           <button
             className={`${button_class} !text-red-600 !border-red-600 hover:!bg-red-600 hover:!text-white`}
+            onClick={handleDelete}
           >
             <FiTrash size={20} className="mr-3" />
             Eliminar
