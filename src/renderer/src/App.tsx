@@ -8,6 +8,7 @@ import { PDFWrapper, ConsolidadoWrapper } from './docs'
 /* STYLES */
 import './styles/main.css'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import 'react-tooltip/dist/react-tooltip.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 // inicializar query client

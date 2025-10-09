@@ -204,5 +204,10 @@ div.admin-panel-wrapper {
 }
 
 div.config-option {
-  @apply flex justify-between items-baseline py-4 px-8 rounded border border-gray-300 bg-gray-300/40;
+  @apply flex justify-between items-center;
+}
+
+/* REACT TOOLTIP CLASSES */
+button.user-option-btn {
+  @apply w-full flex justify-center items-center py-2 px-5 rounded border text-secondary border-gray-300 duration-150 hover:border-gray-400 cursor-pointer;
 }

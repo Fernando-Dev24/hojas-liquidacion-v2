@@ -15,6 +15,6 @@ export const getUsers = async () => {
     return userList
   } catch (error) {
     console.log(error)
-    throw error
+    throw new Error('Error al obtener los usuarios')
   }
 }

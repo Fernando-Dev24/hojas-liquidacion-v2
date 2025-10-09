@@ -1,24 +1,22 @@
-import { User } from '@renderer/interfaces'
-import { FiPlus, FiUser } from 'react-icons/fi'
-
-const users: User[] = [
-  {
-    id: '1',
-    username: 'Fernando Ortiz',
-    password: 'XXXX',
-    roles: ['admin'],
-    userId: '1'
-  },
-  {
-    id: '2',
-    username: 'Andrea',
-    password: 'XXXX',
-    roles: ['digitador'],
-    userId: '2'
-  }
-]
+import { FiPlus } from 'react-icons/fi'
+import { AdminUserItem } from './admin-user-item'
+import { useQuery } from '@tanstack/react-query'
+import { getUsers } from '@renderer/app/actions'
+import { Empty } from '@renderer/components'
 
 export const AdminUsersPanel = () => {
+  const {
+    data: users,
+    isLoading,
+    error
+  } = useQuery({
+    queryKey: ['users'],
+    queryFn: getUsers
+  })
+
+  if (isLoading) return <div>Cargando...</div>
+  if (error) return <div>Error al obtener los usuarios</div>
+
   return (
     <div>
       <div className="flex justify-between items-baseline mb-10">
@@ -29,18 +27,10 @@ export const AdminUsersPanel = () => {
         </button>
       </div>
 
-      {users.map((item) => (
-        <div key={item.id} className="mb-8 p-5 rounded-lg shadow border border-gray-300 bg-gray-50">
-          <div className="flex items-center">
-            <span className="inline-block mr-5 p-2 rounded border border-gray-300 text-secondary bg-gray-200/50">
-              <FiUser size={20} />
-            </span>
-            <div>
-              <p className="text-secondary font-medium">{item.username}</p>
-              <p className="capitalize text-gray-600 text-[14px]">{item.roles.join(',')}</p>
-            </div>
-          </div>
-        </div>
+      {(!users || users.length < 1) && <Empty renderBtn={false} />}
+
+      {users?.map((user) => (
+        <AdminUserItem key={user.id} user={user} />
       ))}
     </div>
   )
