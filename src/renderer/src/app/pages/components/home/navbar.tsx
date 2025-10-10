@@ -2,16 +2,11 @@ import { FiPlus, FiUsers, FiLogOut } from 'react-icons/fi'
 import el_salvador_logo from '../../../../../../../public/el-salvador-logo.svg'
 import { useLogin } from '@renderer/store'
 import { useNavigate } from 'react-router-dom'
+import { onSignOut } from '@renderer/app/actions'
 
 export const Navbar = () => {
   const reset = useLogin((state) => state.reset)
   const navigate = useNavigate()
-
-  const onSignOut = () => {
-    localStorage.removeItem('username')
-    localStorage.removeItem('password')
-    reset()
-  }
 
   const goToAdmin = () => {
     navigate('/app/admin', { replace: true })
@@ -53,7 +48,7 @@ export const Navbar = () => {
 
         <button
           className="py-2 px-4 rounded-md border border-white hover:bg-white hover:text-secondary duration-150"
-          onClick={onSignOut}
+          onClick={() => onSignOut(reset)}
         >
           <FiLogOut size={20} />
         </button>

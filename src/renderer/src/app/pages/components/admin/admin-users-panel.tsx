@@ -3,8 +3,11 @@ import { AdminUserItem } from './admin-user-item'
 import { useQuery } from '@tanstack/react-query'
 import { getUsers } from '@renderer/app/actions'
 import { Empty } from '@renderer/components'
+import { useModals } from '@renderer/store'
 
 export const AdminUsersPanel = () => {
+  const { toggleModal } = useModals()
+
   const {
     data: users,
     isLoading,
@@ -21,7 +24,10 @@ export const AdminUsersPanel = () => {
     <div>
       <div className="flex justify-between items-baseline mb-10">
         <h5 className="text-4xl font-medium">Usuarios</h5>
-        <button className="flex items-center py-3 px-4 rounded-md bg-white shadow border border-gray-300 duration-150 hover:border-gray-400 cursor-pointer">
+        <button
+          className="flex items-center py-3 px-4 rounded-md bg-white shadow border border-gray-300 duration-150 hover:border-gray-400 cursor-pointer"
+          onClick={() => toggleModal('createUserModal')}
+        >
           <FiPlus size={20} className="mr-3" />
           Agregar usuario
         </button>

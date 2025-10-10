@@ -5,6 +5,8 @@ export interface ModalState {
     pdfModal: false
     consolidadoModal: false
     searchObservationModal: false
+    createUserModal: false
+    editUserModal: false
   }
 
   // FUNCTIONS
@@ -15,7 +17,9 @@ export const useModals = create<ModalState>((set, get) => ({
   modals: {
     pdfModal: false,
     consolidadoModal: false,
-    searchObservationModal: false
+    searchObservationModal: false,
+    createUserModal: false,
+    editUserModal: false
   },
 
   /* FUNCTIONS */

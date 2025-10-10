@@ -1,14 +1,38 @@
 import { FiEdit, FiMoreVertical, FiTrash, FiUser } from 'react-icons/fi'
 import { Tooltip } from 'react-tooltip'
 import { User } from '@renderer/interfaces'
+import { useQueryClient } from '@tanstack/react-query'
+import { handleConfirmDelete } from '@renderer/helpers'
+import { onDeleteUser, onSignOut } from '@renderer/app/actions'
+import { toast } from 'react-toastify'
+import { useLogin } from '@renderer/store'
 
 interface Props {
   user: User
 }
 
 export const AdminUserItem = ({ user }: Props) => {
-  const clickTest = () => {
-    console.log('click test')
+  const queryClient = useQueryClient()
+  const { user: currentUser, reset } = useLogin()
+
+  const onDelete = async () => {
+    const isConfirmed = await handleConfirmDelete()
+    if (!isConfirmed) return
+
+    const { ok, message } = await onDeleteUser(user.id)
+    if (!ok) return toast.error(message)
+
+    if (currentUser) {
+      if (currentUser.id === user.id) {
+        onSignOut(reset)
+        toast.success('Vuelve a iniciar sesión')
+        return
+      }
+    }
+
+    queryClient.invalidateQueries({ queryKey: ['users'] })
+    toast.success(message)
+    return
   }
 
   return (
@@ -29,7 +53,7 @@ export const AdminUserItem = ({ user }: Props) => {
 
           <button
             className="absolute top-1/2 right-14 -translate-y-1/2 p-1 text-gray-600 duration-150 hover:text-secondary cursor-pointer outline-none"
-            data-tooltip-id="user-options"
+            data-tooltip-id={`user-options-${user.id}`}
           >
             <FiMoreVertical size={20} />
           </button>
@@ -40,20 +64,20 @@ export const AdminUserItem = ({ user }: Props) => {
         clickable
         openOnClick
         closeEvents={{ click: true }}
-        id="user-options"
+        id={`user-options-${user.id}`}
         place="bottom"
         border="1px solid #d1d5dc"
         className="!p-5 !border !border-gray-300 !rounded-lg !shadow-lg !bg-white !z-40"
       >
         <div className="flex flex-col gap-y-5">
-          <button className="user-option-btn" onClick={clickTest}>
+          <button className="user-option-btn">
             <FiEdit size={20} className="mr-3" />
             Editar
           </button>
 
           <button
             className="user-option-btn !text-white !border-red-600 !bg-red-600 hover:!bg-red-600/90"
-            onClick={clickTest}
+            onClick={onDelete}
           >
             <FiTrash size={20} className="mr-3" />
             Eliminar
