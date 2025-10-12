@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { handleConfirmDelete } from '@renderer/helpers'
 import { onDeleteUser, onSignOut } from '@renderer/app/actions'
 import { toast } from 'react-toastify'
-import { useLogin } from '@renderer/store'
+import { useAdminStore, useLogin, useModals } from '@renderer/store'
 
 interface Props {
   user: User
@@ -14,6 +14,8 @@ interface Props {
 export const AdminUserItem = ({ user }: Props) => {
   const queryClient = useQueryClient()
   const { user: currentUser, reset } = useLogin()
+  const { toggleModal } = useModals()
+  const { setUserToEdit } = useAdminStore()
 
   const onDelete = async () => {
     const isConfirmed = await handleConfirmDelete()
@@ -33,6 +35,11 @@ export const AdminUserItem = ({ user }: Props) => {
     queryClient.invalidateQueries({ queryKey: ['users'] })
     toast.success(message)
     return
+  }
+
+  const handleEditUser = () => {
+    setUserToEdit(user)
+    toggleModal('editUserModal')
   }
 
   return (
@@ -70,7 +77,7 @@ export const AdminUserItem = ({ user }: Props) => {
         className="!p-5 !border !border-gray-300 !rounded-lg !shadow-lg !bg-white !z-40"
       >
         <div className="flex flex-col gap-y-5">
-          <button className="user-option-btn">
+          <button className="user-option-btn" onClick={handleEditUser}>
             <FiEdit size={20} className="mr-3" />
             Editar
           </button>

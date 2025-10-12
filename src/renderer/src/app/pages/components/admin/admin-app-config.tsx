@@ -1,11 +1,11 @@
-import { FiChevronDown, FiSettings } from 'react-icons/fi'
+import { FiCheck, FiChevronDown, FiSettings } from 'react-icons/fi'
 import { Tooltip } from 'react-tooltip'
 import { configOptions } from '../../admin/types/config-type'
 
 export const AdminAppConfigPanel = () => {
   return (
     <>
-      <div className="admin-panel-wrapper">
+      <div className="relative admin-panel-wrapper">
         {/* HEADER */}
         <div className="flex items-center gap-x-8 mb-14">
           <span className="p-3 rounded border border-gray-200 text-secondary bg-gray-300/40">
@@ -22,8 +22,8 @@ export const AdminAppConfigPanel = () => {
         {/* SETTINGS */}
         <div className="flex flex-col gap-y-12">
           {configOptions.map((item) => (
-            <>
-              <div className="config-option" key={item.id}>
+            <div key={item.id}>
+              <div className="config-option">
                 <div className="flex items-center text-[20px] gap-x-3">
                   <span className="p-3 rounded border border-gray-200 text-secondary bg-gray-300/40">
                     {item.icon}
@@ -57,8 +57,19 @@ export const AdminAppConfigPanel = () => {
                   <button className="user-option-btn">1</button>
                 </div>
               </Tooltip>
-            </>
+            </div>
           ))}
+        </div>
+
+        {/* BUTTONS */}
+        <div className="absolute bottom-12 right-12 flex items-center gap-x-5">
+          <button className="btn-confirm !border !border-gray-300 !text-secondary !bg-transparent hover:!border-gray-400">
+            Cancelar
+          </button>
+          <button className="btn-confirm">
+            <FiCheck size={20} className="mr-3" />
+            Aplicar
+          </button>
         </div>
       </div>
     </>

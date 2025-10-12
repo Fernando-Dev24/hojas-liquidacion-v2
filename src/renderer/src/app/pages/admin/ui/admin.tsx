@@ -2,7 +2,8 @@ import {
   AdminAppConfigPanel,
   AdminNavbar,
   AdminUsersPanel,
-  AdminNewUserModal
+  AdminNewUserModal,
+  AdminEditUserModal
 } from '../../components'
 
 export const Admin = () => {
@@ -20,6 +21,7 @@ export const Admin = () => {
       </section>
 
       <AdminNewUserModal id="createUserModal" />
+      <AdminEditUserModal id="editUserModal" />
     </>
   )
 }
