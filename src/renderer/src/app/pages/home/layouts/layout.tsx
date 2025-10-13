@@ -5,6 +5,7 @@ import { useCallback, useEffect } from 'react'
 import { getObservationSchema } from '@renderer/app/actions'
 import { useObservationPDFShema } from '@renderer/store/observation-pdf'
 import { Admin } from '../../admin/ui/admin'
+import { Agenda } from '../../agenda/agenda'
 
 const Layout = () => {
   const setSchema = useObservationPDFShema((state) => state.setSchema)
@@ -21,8 +22,9 @@ const Layout = () => {
   return (
     <Routes>
       <Route path="/home" element={<HomePage />} />
-      <Route path="/admin" element={<Admin />} />
       <Route path="/update/:id" element={<UpdatePage />} />
+      <Route path="/admin" element={<Admin />} />
+      <Route path="agenda" element={<Agenda />} />
       <Route path="/*" element={<Navigate to="/app/home" replace />} />
     </Routes>
   )

@@ -1,17 +1,18 @@
 import { handleFilterConsolidado } from '@renderer/helpers'
 import { useLogin, useModals, useObservationsStore } from '@renderer/store'
 import { FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 
 export const Landing = () => {
   const user = useLogin((state) => state.user)
   const setFilterBy = useObservationsStore((state) => state.setFilterBy)
   const { toggleModal } = useModals((state) => state)
+  const navigate = useNavigate()
 
-  const renderConsolidado = () => {
-    handleFilterConsolidado({
-      setFilterBy,
-      toggleModal
-    })
+  const renderConsolidado = async () => {
+    const resp = await handleFilterConsolidado()
+    setFilterBy(resp)
+    toggleModal('consolidadoModal')
   }
 
   const showSearchModal = () => toggleModal('searchObservationModal')
@@ -32,7 +33,10 @@ export const Landing = () => {
           Buscar
         </button>
 
-        <button className="flex items-center py-3 px-5 shadow rounded bg-secondary text-white duration-150 hover:opacity-90">
+        <button
+          className="flex items-center py-3 px-5 shadow rounded bg-secondary text-white duration-150 hover:opacity-90"
+          onClick={() => navigate('/app/agenda')}
+        >
           <FiCalendar size={20} className="mr-3" />
           Agenda
         </button>

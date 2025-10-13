@@ -1,8 +1,40 @@
-import { FiCheck, FiChevronDown, FiSettings } from 'react-icons/fi'
-import { Tooltip } from 'react-tooltip'
+import { FiCheck, FiSettings } from 'react-icons/fi'
+import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { getAdminConfig, updateAdminConfig } from '@renderer/app/actions'
 import { configOptions } from '../../admin/types/config-type'
+import type { AdminConfig } from '@renderer/interfaces/admin'
 
 export const AdminAppConfigPanel = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['admin-config'],
+    queryFn: getAdminConfig
+  })
+
+  const { register, handleSubmit, reset } = useForm<AdminConfig>({
+    values: {
+      financieroLimit: data?.financieroLimit || 'no-limit',
+      paquetesLimit: data?.paquetesLimit || 'no-limit'
+    }
+  })
+  const queryClient = useQueryClient()
+
+  const onSubmit = async (values: AdminConfig) => {
+    const { ok, message } = await updateAdminConfig(values)
+    if (!ok) {
+      toast.error(message)
+      return
+    }
+
+    // REVALIDAR LA QUERY
+    queryClient.invalidateQueries({ queryKey: ['admin-config'] })
+    toast.success(message)
+  }
+
+  if (isLoading) return <p>Cargando...</p>
+  if (error) return <p>Error al obtener la configuración</p>
+
   return (
     <>
       <div className="relative admin-panel-wrapper">
@@ -20,7 +52,11 @@ export const AdminAppConfigPanel = () => {
         </div>
 
         {/* SETTINGS */}
-        <div className="flex flex-col gap-y-12">
+        <form
+          autoComplete="off"
+          className="flex flex-col gap-y-12"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {configOptions.map((item) => (
             <div key={item.id}>
               <div className="config-option">
@@ -30,47 +66,33 @@ export const AdminAppConfigPanel = () => {
                   </span>
                   {item.label}
                 </div>
-                <button
-                  className="py-2 px-5 rounded bg-gray-300/40 border border-gray-200 duration-150 hover:border-gray-300 cursor-pointer"
-                  data-tooltip-id={`config-option-${item.id}`}
-                >
-                  Seleccionar limite
-                  <FiChevronDown size={20} className="inline-block ml-3" />
-                </button>
+                <select id={item.id} className="!w-[200px] admin-select" {...register(item.id)}>
+                  {item.options.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
               </div>
-
-              <Tooltip
-                openOnClick
-                clickable
-                opacity={1}
-                closeEvents={{ click: true }}
-                id={`config-option-${item.id}`}
-                place="bottom"
-                border="1px solid #d1d5dc"
-                className="!p-3 !border !border-gray-300 !rounded-lg !shadow-lg !bg-white !z-40"
-              >
-                <div className="flex flex-col justify-center items-center gap-y-3">
-                  <button className="user-option-btn">Sin limite</button>
-                  <button className="user-option-btn">4</button>
-                  <button className="user-option-btn">3</button>
-                  <button className="user-option-btn">2</button>
-                  <button className="user-option-btn">1</button>
-                </div>
-              </Tooltip>
             </div>
           ))}
-        </div>
+
+          <div className="absolute bottom-12 right-12 flex items-center gap-x-5">
+            <button
+              type="button"
+              className="btn-confirm !border !border-gray-300 !text-secondary !bg-transparent hover:!border-gray-400"
+              onClick={() => reset()}
+            >
+              Cancelar
+            </button>
+            <button type="submit" className="btn-confirm">
+              <FiCheck size={20} className="mr-3" />
+              Aplicar
+            </button>
+          </div>
+        </form>
 
         {/* BUTTONS */}
-        <div className="absolute bottom-12 right-12 flex items-center gap-x-5">
-          <button className="btn-confirm !border !border-gray-300 !text-secondary !bg-transparent hover:!border-gray-400">
-            Cancelar
-          </button>
-          <button className="btn-confirm">
-            <FiCheck size={20} className="mr-3" />
-            Aplicar
-          </button>
-        </div>
       </div>
     </>
   )

@@ -15,8 +15,11 @@ export const Item = (data: Observation) => {
     updateItem({ id: data.id, evt })
   }
 
-  const handleDelete = () => {
-    handleConfirmDelete({ id: data.id, deleteItem })
+  const handleDelete = async () => {
+    const isConfirmed = await handleConfirmDelete()
+    if (!isConfirmed) return
+
+    deleteItem(data.id)
   }
 
   return (

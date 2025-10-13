@@ -38,11 +38,19 @@ export const onSave = async ({ data, username, action }: Params) => {
     ...data
   }
 
-  if (action === 'update') await onUpdate(completeData)
-  if (action === 'create') await onCreate(completeData, username)
-  return {
-    ok: true,
-    message: `${action === 'update' ? 'Actualizado' : 'Creado'} correctamente`
+  try {
+    if (action === 'update') await onUpdate(completeData).catch()
+    if (action === 'create') await onCreate(completeData, username)
+    return {
+      ok: true,
+      message: `${action === 'update' ? 'Actualizado' : 'Creado'} correctamente`
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      ok: false,
+      message: 'Error al guardar los datos'
+    }
   }
 }
 
@@ -54,7 +62,6 @@ export const onUpdate = async (data: any) => {
     const db = await dbPromise
     const docRef = doc(db, 'observations_pages', id)
     await updateDoc(docRef, data)
-    return
   } catch (error) {
     console.log(error)
   }
@@ -82,13 +89,7 @@ export const onCreate = async (data: any, username: string) => {
     const collectionRef = collection(db, 'observations_pages')
     await addDoc(collectionRef, newReportData)
     await updateDoc(docRef, { correlativo: resp?.correlativo + 1 })
-
-    return
   } catch (error) {
     console.log(error)
-    return {
-      ok: false,
-      message: 'Error al crear la hoja'
-    }
   }
 }

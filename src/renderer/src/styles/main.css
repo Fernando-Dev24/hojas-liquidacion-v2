@@ -211,3 +211,29 @@ div.config-option {
 button.user-option-btn {
   @apply w-full flex justify-center items-center py-2 px-5 rounded border text-secondary border-gray-300 duration-150 hover:border-gray-400 cursor-pointer;
 }
+
+/* ADMIN CONFIG SELECT */
+select.admin-select,
+::picker(select) {
+  appearance: base-select;
+}
+
+::picker(select) {
+  @apply my-1 p-2 rounded-xl shadow-md border border-gray-300;
+}
+
+select.admin-select::picker-icon {
+  @apply text-secondary duration-150 transition-transform ease-out;
+}
+
+select.admin-select:open::picker-icon {
+  transform: rotate(180deg);
+}
+
+select.admin-select option {
+  @apply my-1 p-1 rounded hover:bg-gray-200;
+}
+
+select.admin-select option {
+  @apply checked:bg-secondary checked:text-white checked:hover:bg-secondary/90;
+}

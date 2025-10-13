@@ -1,9 +1,10 @@
-import { onDelete } from '@renderer/app/actions'
+import { onDelete, onSave } from '@renderer/app/actions'
 import { handleConfirmDelete, handleSaveAndExit } from '@renderer/helpers'
 import { useLogin, useUpdateForm } from '@renderer/store'
 import { useModals } from '@renderer/store/modal-store'
 import { FiArrowLeft, FiFile, FiTrash } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export const UpdateNavbar = () => {
   const toggleModal = useModals((state) => state.toggleModal)
@@ -11,23 +12,46 @@ export const UpdateNavbar = () => {
   const user = useLogin((state) => state.user)
   const navigate = useNavigate()
 
-  const handleExit = () => {
-    handleSaveAndExit({
-      form,
-      username: user?.username ?? '',
-      action: form.id ? 'update' : 'create',
-      reset,
-      navigate
+  const handleExit = async () => {
+    const isConfirmed = await handleSaveAndExit()
+
+    // Si quiere salir sin guardar, solamente un reset del form y navigate
+    if (!isConfirmed) {
+      reset()
+      navigate('/app/home', { replace: true })
+      return
+    }
+
+    // Si quiere guardar
+    const { ok, message } = await onSave({
+      data: form,
+      username: user?.username || '',
+      action: form.id ? 'update' : 'create'
     })
+
+    if (!ok) {
+      toast.error(message)
+      return
+    }
+
+    reset()
+    toast.success(message)
+    navigate('/app/home', { replace: true })
+    return
   }
 
   const handleDelete = async () => {
-    handleConfirmDelete({
-      id: form.id ?? '',
-      path: '/app/home',
-      deleteItem: onDelete,
-      navigate
-    })
+    const isConfirmed = await handleConfirmDelete()
+    if (!isConfirmed) return
+
+    const { ok, message } = await onDelete(form.id)
+    if (!ok) {
+      toast.error(message)
+      return
+    }
+
+    navigate('/app/home', { replace: true })
+    toast.success(message)
   }
 
   const viewPDF = () => {
