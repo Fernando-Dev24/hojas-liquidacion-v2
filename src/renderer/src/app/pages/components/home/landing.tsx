@@ -17,8 +17,7 @@ export const Landing = () => {
   }
 
   const goToAgenda = () => {
-    const date = getUnixTime(new Date())
-    navigate(`/app/agenda/${date}`)
+    navigate(`/app/agenda`)
   }
 
   const showSearchModal = () => toggleModal('searchObservationModal')

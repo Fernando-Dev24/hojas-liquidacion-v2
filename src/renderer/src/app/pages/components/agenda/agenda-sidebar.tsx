@@ -6,7 +6,9 @@ export const AgendaSidebar = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="h-screen border-r border-gray-200">
+    <div className="h-screen pt-14 border-r border-gray-200">
+      <h2 className="mb-5 px-5 text-3xl font-semibold text-secondary">Agenda</h2>
+
       <button
         className="agenda-btn-sidebar"
         onClick={() => navigate('/app/home', { replace: true })}

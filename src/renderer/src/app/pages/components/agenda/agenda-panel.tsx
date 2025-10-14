@@ -1,9 +1,10 @@
+import { Pagination } from '@renderer/components'
 import { FiMoreVertical } from 'react-icons/fi'
 import { LuSchool } from 'react-icons/lu'
 
 export const AgendaPanel = () => {
   return (
-    <section>
+    <section className="pt-14">
       <article className="relative mb-8 grid grid-cols-[10%_minmax(75%,_1fr)] gap-x-10 p-10 rounded-xl border border-gray-300 bg-gray-100 shadow">
         {/* FECHA Y HORA */}
         <div className="flex flex-col justify-start gap-y-5 ">
@@ -85,6 +86,15 @@ export const AgendaPanel = () => {
           <FiMoreVertical size={20} />
         </button>
       </article>
+
+      <div className="mt-10 text-white">
+        <Pagination
+          textColor="font-medium text-secondary"
+          currentPage={1}
+          totalPages={2}
+          triggerCurrentPage={() => {}}
+        />
+      </div>
     </section>
   )
 }

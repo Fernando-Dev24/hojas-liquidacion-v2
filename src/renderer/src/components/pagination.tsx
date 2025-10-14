@@ -3,13 +3,14 @@ import { FiChevronLeft, FiChevronRight, FiHome } from 'react-icons/fi'
 interface Props {
   totalPages: number
   currentPage: number
+  textColor?: string
   triggerCurrentPage: (action: 'next' | 'prev' | 'reset') => void
 }
 
-export const Pagination = ({ totalPages, currentPage, triggerCurrentPage }: Props) => {
+export const Pagination = ({ totalPages, currentPage, textColor, triggerCurrentPage }: Props) => {
   return (
     <div className="flex justify-between items-center">
-      <span>
+      <span className={textColor}>
         Pág {currentPage} de {totalPages}
       </span>
       <div className="flex items-center gap-x-5">
