@@ -1,5 +1,6 @@
 import { handleFilterConsolidado } from '@renderer/helpers'
 import { useLogin, useModals, useObservationsStore } from '@renderer/store'
+import { format, fromUnixTime, getUnixTime } from 'date-fns'
 import { FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 
@@ -13,6 +14,11 @@ export const Landing = () => {
     const resp = await handleFilterConsolidado()
     setFilterBy(resp)
     toggleModal('consolidadoModal')
+  }
+
+  const goToAgenda = () => {
+    const date = getUnixTime(new Date())
+    navigate(`/app/agenda/${date}`)
   }
 
   const showSearchModal = () => toggleModal('searchObservationModal')
@@ -35,7 +41,7 @@ export const Landing = () => {
 
         <button
           className="flex items-center py-3 px-5 shadow rounded bg-secondary text-white duration-150 hover:opacity-90"
-          onClick={() => navigate('/app/agenda')}
+          onClick={goToAgenda}
         >
           <FiCalendar size={20} className="mr-3" />
           Agenda

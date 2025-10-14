@@ -24,7 +24,7 @@ const Layout = () => {
       <Route path="/home" element={<HomePage />} />
       <Route path="/update/:id" element={<UpdatePage />} />
       <Route path="/admin" element={<Admin />} />
-      <Route path="agenda" element={<Agenda />} />
+      <Route path="agenda/:day" element={<Agenda />} />
       <Route path="/*" element={<Navigate to="/app/home" replace />} />
     </Routes>
   )
