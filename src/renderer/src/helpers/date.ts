@@ -21,3 +21,11 @@ export const formatNowDate = (date = new Date()) => {
 export const formatWithDay = (date: Date) => {
   return format(date, 'EEEE, d LLLL', { locale: es })
 }
+
+export const formatBookingDate = (date: Timestamp | Date, formatSchema: string) => {
+  if (date instanceof Timestamp) {
+    return format(date.toDate(), formatSchema, { locale: es })
+  }
+
+  return ''
+}

@@ -2,6 +2,8 @@ import { ObservationPage } from '@renderer/interfaces'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
+export type PaginationActions = 'next' | 'prev' | 'reset'
+
 export interface ObservationState {
   observations: ObservationPage[]
   orderedObservations: ObservationPage[]
@@ -15,7 +17,7 @@ export interface ObservationState {
   /* FUNCTIONS */
   setObservations: (observations: ObservationPage[]) => void
   setTotalPages: (totalPages: number) => void
-  triggerCurrentPage: (action: 'next' | 'prev' | 'reset') => void
+  triggerCurrentPage: (action: PaginationActions) => void
   setFilterBy: (filter: ObservationState['filterBy']) => void
   setOrder: () => void
   setConsolidadoData: (orderedObs: ObservationPage[], total: number) => void

@@ -19,7 +19,8 @@ export const PagesGrid = () => {
       getPaginatedData({
         collName: 'observations_pages',
         page: currentPage,
-        take: 25
+        take: 25,
+        dateFieldName: 'date'
       })
   })
 

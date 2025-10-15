@@ -1,0 +1,43 @@
+import { create } from 'zustand'
+import { devtools } from 'zustand/middleware'
+import type { PaginationActions } from './observations-store'
+import { Filter } from '@renderer/interfaces'
+
+interface AgendaStore {
+  currentPage: number
+  totalPages: number
+  filterBy: Filter
+
+  setPagination: (totalPages: number) => void
+  setFilterBy: (filterBy: Filter) => void
+  triggerPages: (action: PaginationActions) => void
+}
+
+export const useAgendaStore = create<AgendaStore>()(
+  devtools((set, get) => ({
+    currentPage: 1,
+    totalPages: 0,
+    filterBy: 'PAQUETES',
+
+    setPagination: (totalPages: number) => set({ totalPages }),
+    setFilterBy: (filterBy: Filter) => set({ filterBy }),
+    triggerPages: (action: PaginationActions) => {
+      const { currentPage } = get()
+
+      switch (action) {
+        case 'next':
+          set({ currentPage: currentPage + 1 })
+          break
+        case 'prev':
+          set({ currentPage: currentPage - 1 })
+          break
+        case 'reset':
+          set({ currentPage: 1 })
+          break
+        default:
+          set({ currentPage: 1 })
+          break
+      }
+    }
+  }))
+)

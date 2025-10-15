@@ -1,4 +1,5 @@
 import { dbPromise } from '@renderer/config/firebase'
+import { Filter } from '@renderer/interfaces'
 import {
   collection,
   getCountFromServer,
@@ -6,29 +7,37 @@ import {
   limit,
   orderBy,
   query,
-  startAfter
+  startAfter,
+  where
 } from 'firebase/firestore'
 
 interface Params {
   page: number
   take: number
-  collName: string
+  filterBy: Filter
 }
 
-export const getPaginatedData = async ({ page, take, collName }: Params) => {
+export const getPaginatedBookings = async ({ page, take, filterBy }: Params) => {
+  console.log(filterBy)
   try {
     const db = await dbPromise
-    const collectionRef = collection(db, collName)
+    const collectionRef = collection(db, 'bookings')
 
     // CALCULAR EL DOCUMENTO INICIAL PARA LA PAGINACION
     let dataQuery
     if (page === 1) {
-      dataQuery = query(collectionRef, orderBy('date', 'desc'), limit(take))
+      dataQuery = query(
+        collectionRef,
+        where('bookingDepartment', '==', filterBy),
+        orderBy('visitDate', 'desc'),
+        limit(take)
+      )
     } else {
       // OBTENER EL ULTIMO DOCUMENTO DE LA PAGINA ANTERIOR
       const previousPageQuery = query(
         collectionRef,
-        orderBy('date', 'desc'),
+        where('bookingDepartment', '==', filterBy),
+        orderBy('visitDate', 'desc'),
         limit((page - 1) * take)
       )
 
@@ -37,7 +46,8 @@ export const getPaginatedData = async ({ page, take, collName }: Params) => {
 
       dataQuery = query(
         collectionRef,
-        orderBy('date', 'desc'),
+        where('bookingDepartment', '==', filterBy),
+        orderBy('visitDate', 'desc'),
         limit(take),
         startAfter(lastVisible)
       )
@@ -54,7 +64,7 @@ export const getPaginatedData = async ({ page, take, collName }: Params) => {
     })
 
     // Calcular el total de paginas segun la cantidad total de elementos en la coleccion
-    const countSnapshot = await getCountFromServer(collectionRef)
+    const countSnapshot = await getCountFromServer(dataQuery)
     const total = countSnapshot.data().count
     const totalPages = Math.ceil(total / take)
 

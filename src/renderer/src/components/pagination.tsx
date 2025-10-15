@@ -1,10 +1,11 @@
+import { PaginationActions } from '@renderer/store'
 import { FiChevronLeft, FiChevronRight, FiHome } from 'react-icons/fi'
 
 interface Props {
   totalPages: number
   currentPage: number
   textColor?: string
-  triggerCurrentPage: (action: 'next' | 'prev' | 'reset') => void
+  triggerCurrentPage: (action: PaginationActions) => void
 }
 
 export const Pagination = ({ totalPages, currentPage, textColor, triggerCurrentPage }: Props) => {

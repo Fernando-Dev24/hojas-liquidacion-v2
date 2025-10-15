@@ -1,9 +1,17 @@
-import { FiArrowLeft, FiFile, FiPackage } from 'react-icons/fi'
+import { Filter } from '@renderer/interfaces'
+import { useAgendaStore } from '@renderer/store'
+import clsx from 'clsx'
+import { FiArrowLeft, FiFile, FiPackage, FiPlus } from 'react-icons/fi'
 import { MdAttachMoney } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 
 export const AgendaSidebar = () => {
+  const { filterBy, setFilterBy } = useAgendaStore()
   const navigate = useNavigate()
+
+  const handleFilter = (filter: Filter) => {
+    setFilterBy(filter)
+  }
 
   return (
     <div className="h-screen pt-14 border-r border-gray-200">
@@ -17,12 +25,30 @@ export const AgendaSidebar = () => {
         Regresar
       </button>
 
-      <button className="agenda-btn-sidebar">
+      <button
+        className="agenda-btn-sidebar"
+        // onClick={() => navigate('/app/home', { replace: true })}
+      >
+        <FiPlus size={20} />
+        Crear nuevo registro
+      </button>
+
+      <button
+        className={clsx('agenda-btn-sidebar', {
+          '!border-secondary': filterBy === 'PAQUETES'
+        })}
+        onClick={() => handleFilter('PAQUETES')}
+      >
         <FiPackage size={20} />
         Paquetes
       </button>
 
-      <button className="agenda-btn-sidebar">
+      <button
+        className={clsx('agenda-btn-sidebar', {
+          '!border-secondary': filterBy === 'FINANCIERO'
+        })}
+        onClick={() => handleFilter('FINANCIERO')}
+      >
         <MdAttachMoney size={20} />
         Financiero
       </button>
