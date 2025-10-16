@@ -22,10 +22,6 @@ export const formatWithDay = (date: Date) => {
   return format(date, 'EEEE, d LLLL', { locale: es })
 }
 
-export const formatBookingDate = (date: Timestamp | Date, formatSchema: string) => {
-  if (date instanceof Timestamp) {
-    return format(date.toDate(), formatSchema, { locale: es })
-  }
-
-  return ''
+export const formatBookingDate = (date: Date, formatSchema: string) => {
+  return format(date, formatSchema, { locale: es })
 }

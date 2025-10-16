@@ -48,7 +48,7 @@ export const AdminNewUserModal = ({ id }: Props) => {
                 type={formItem.type}
                 id={formItem.name}
                 placeholder={formItem.placeholder}
-                className="w-full p-3 px-5 rounded bg-gray-200/30 border border-gray-300 outline-none duration-150 hover:border-gray-400 focus:border-gray-400"
+                className="modal-input"
                 {...register(formItem.name)}
               />
             )}

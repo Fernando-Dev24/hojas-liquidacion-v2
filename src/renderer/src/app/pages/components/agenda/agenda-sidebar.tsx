@@ -1,5 +1,5 @@
 import { Filter } from '@renderer/interfaces'
-import { useAgendaStore } from '@renderer/store'
+import { useAgendaStore, useModals } from '@renderer/store'
 import clsx from 'clsx'
 import { FiArrowLeft, FiFile, FiPackage, FiPlus } from 'react-icons/fi'
 import { MdAttachMoney } from 'react-icons/md'
@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const AgendaSidebar = () => {
   const { filterBy, setFilterBy } = useAgendaStore()
+  const toggleModal = useModals((state) => state.toggleModal)
   const navigate = useNavigate()
 
   const handleFilter = (filter: Filter) => {
@@ -25,10 +26,7 @@ export const AgendaSidebar = () => {
         Regresar
       </button>
 
-      <button
-        className="agenda-btn-sidebar"
-        // onClick={() => navigate('/app/home', { replace: true })}
-      >
+      <button className="agenda-btn-sidebar" onClick={() => toggleModal('newBookingModal')}>
         <FiPlus size={20} />
         Crear nuevo registro
       </button>

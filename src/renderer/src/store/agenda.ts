@@ -1,15 +1,17 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import type { PaginationActions } from './observations-store'
-import { Filter } from '@renderer/interfaces'
+import { Booking, Filter } from '@renderer/interfaces'
 
 interface AgendaStore {
   currentPage: number
   totalPages: number
+  bookingToEdit: Booking | null
   filterBy: Filter
 
   setPagination: (totalPages: number) => void
   setFilterBy: (filterBy: Filter) => void
+  setBookingToEdit: (booking: Booking) => void
   triggerPages: (action: PaginationActions) => void
 }
 
@@ -18,9 +20,13 @@ export const useAgendaStore = create<AgendaStore>()(
     currentPage: 1,
     totalPages: 0,
     filterBy: 'PAQUETES',
+    bookingToEdit: null,
 
     setPagination: (totalPages: number) => set({ totalPages }),
     setFilterBy: (filterBy: Filter) => set({ filterBy }),
+    setBookingToEdit: (booking: Booking) => {
+      set({ bookingToEdit: booking })
+    },
     triggerPages: (action: PaginationActions) => {
       const { currentPage } = get()
 

@@ -8,6 +8,7 @@ import {
   orderBy,
   query,
   startAfter,
+  Timestamp,
   where
 } from 'firebase/firestore'
 
@@ -18,7 +19,6 @@ interface Params {
 }
 
 export const getPaginatedBookings = async ({ page, take, filterBy }: Params) => {
-  console.log(filterBy)
   try {
     const db = await dbPromise
     const collectionRef = collection(db, 'bookings')
@@ -70,7 +70,11 @@ export const getPaginatedBookings = async ({ page, take, filterBy }: Params) => 
 
     return {
       ok: true,
-      data,
+      data: data.map((booking) => ({
+        ...booking,
+        visitDate:
+          booking.visitDate instanceof Timestamp ? booking.visitDate.toDate() : booking.visitDate
+      })),
       totalPages
     }
   } catch (error) {

@@ -7,6 +7,7 @@ export interface ModalState {
     searchObservationModal: false
     createUserModal: false
     editUserModal: false
+    newBookingModal: false
   }
 
   // FUNCTIONS
@@ -19,7 +20,8 @@ export const useModals = create<ModalState>((set, get) => ({
     consolidadoModal: false,
     searchObservationModal: false,
     createUserModal: false,
-    editUserModal: false
+    editUserModal: false,
+    newBookingModal: false
   },
 
   /* FUNCTIONS */

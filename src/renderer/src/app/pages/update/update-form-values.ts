@@ -49,7 +49,7 @@ export const updateFormInputs: UpdateFormValues[] = [
     name: 'category',
     type: 'text',
     placeholder: 'Rubro',
-    wrapperClassName: 'col-span-3',
+    wrapperClassName: 'col-span-full',
     options: [
       {
         label: 'Paquetes',

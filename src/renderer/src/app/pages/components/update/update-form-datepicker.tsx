@@ -1,13 +1,7 @@
 /* packages */
-import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker'
-import { es } from 'date-fns/locale/es'
+import DatePicker from 'react-datepicker'
 /* styles */
-import 'react-datepicker/dist/react-datepicker.css'
 import { useUpdateForm } from '@renderer/store'
-
-/* Configure DatePicker to be in Spanish */
-setDefaultLocale('es')
-registerLocale('es', es)
 
 export function UpdateFormDatePicker() {
   const date = useUpdateForm((state) => state.form.date)

@@ -1,4 +1,4 @@
-import { AgendaSidebar, AgendaPanel } from '../components'
+import { AgendaSidebar, AgendaPanel, AgendaNewItem } from '../components'
 
 export const Agenda = () => {
   return (
@@ -7,6 +7,8 @@ export const Agenda = () => {
         <AgendaSidebar />
         <AgendaPanel />
       </section>
+
+      <AgendaNewItem id="newBookingModal" />
     </section>
   )
 }
