@@ -5,17 +5,22 @@ import DatePicker from 'react-datepicker'
 import { useForm } from 'react-hook-form'
 import { INFRAS } from '@renderer/data/infras/infras'
 import { onCreateBooking } from '@renderer/app/actions'
-import { useLogin } from '@renderer/store'
+import { useLogin, useModals } from '@renderer/store'
+import { toast } from 'react-toastify'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface Props extends ModalProps {}
 
 export const AgendaNewItem = ({ id }: Props) => {
   const { user } = useLogin()
-  const { register, handleSubmit, setValue, getValues, watch } = useForm<BookingForm>({
+  const { toggleModal } = useModals()
+  const { register, handleSubmit, setValue, getValues, watch, reset } = useForm<BookingForm>({
     defaultValues: {
+      total: 0,
       visitDate: new Date()
     }
   })
+  const queryClient = useQueryClient()
 
   const handleDate = (date: Date | null) => {
     if (!date) return setValue('visitDate', new Date())
@@ -33,16 +38,27 @@ export const AgendaNewItem = ({ id }: Props) => {
   }
 
   const onSubmit = async (values: BookingForm) => {
-    onCreateBooking({
+    const { ok, message } = await onCreateBooking({
       values,
       username: user?.username || null
     })
+
+    if (!ok) return toast.error(message)
+    await queryClient.invalidateQueries({ queryKey: ['agenda'] })
+    toast.success(message)
+    onCloseModal()
+    return
+  }
+
+  const onCloseModal = () => {
+    reset()
+    toggleModal(id)
   }
 
   watch(['visitDate', 'school_name'])
 
   return (
-    <Modal id={id} className="modal modal-booking">
+    <Modal id={id} className="modal modal-booking" customCloseFn={onCloseModal}>
       <div className="py-5 px-5">
         <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <h2 className="mb-8 text-secondary text-2xl font-semibold">Crear nuevo registro</h2>

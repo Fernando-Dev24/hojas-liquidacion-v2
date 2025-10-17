@@ -2,7 +2,7 @@ import { FiPackage } from 'react-icons/fi'
 import { MdAttachMoney } from 'react-icons/md'
 
 interface ConfigOption {
-  id: 'paquetesLimit' | 'financieroLimit'
+  id: 'paquetes' | 'financiero'
   label: string
   icon: React.ReactNode
   options: ConfigOptions[]
@@ -46,13 +46,13 @@ const options: ConfigOptions[] = [
 
 export const configOptions: ConfigOption[] = [
   {
-    id: 'paquetesLimit',
+    id: 'paquetes',
     label: 'Paquetes',
     icon: <FiPackage size={20} />,
     options
   },
   {
-    id: 'financieroLimit',
+    id: 'financiero',
     label: 'Financiero',
     icon: <MdAttachMoney size={20} />,
     options

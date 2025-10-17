@@ -23,6 +23,7 @@ export interface BookingForm {
   school_name: string
   total: number
   visitDate: Date
+  createdAt: Date
 }
 
 export interface BookingOpt {
@@ -100,5 +101,5 @@ export const bookingValidationSchema = z.object({
   description: z.string(),
   infra: z.string().min(3, 'Campo requerido'),
   school_name: z.string().min(1, 'Campo requerido'),
-  visitDate: z.date().min(new Date(), 'Fecha inválida')
+  visitDate: z.date()
 })

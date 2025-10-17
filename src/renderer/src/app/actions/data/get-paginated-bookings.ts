@@ -73,7 +73,9 @@ export const getPaginatedBookings = async ({ page, take, filterBy }: Params) => 
       data: data.map((booking) => ({
         ...booking,
         visitDate:
-          booking.visitDate instanceof Timestamp ? booking.visitDate.toDate() : booking.visitDate
+          booking.visitDate instanceof Timestamp ? booking.visitDate.toDate() : booking.visitDate,
+        createdAt:
+          booking.createdAt instanceof Timestamp ? booking.createdAt.toDate() : booking.createdAt
       })),
       totalPages
     }

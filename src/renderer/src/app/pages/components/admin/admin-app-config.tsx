@@ -14,8 +14,8 @@ export const AdminAppConfigPanel = () => {
 
   const { register, handleSubmit, reset } = useForm<AdminConfig>({
     values: {
-      financieroLimit: data?.financieroLimit || 'no-limit',
-      paquetesLimit: data?.paquetesLimit || 'no-limit'
+      financiero: data?.financiero || 'no-limit',
+      paquetes: data?.paquetes || 'no-limit'
     }
   })
   const queryClient = useQueryClient()

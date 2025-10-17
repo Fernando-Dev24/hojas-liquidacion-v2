@@ -21,6 +21,10 @@ export const useAgendaStore = create<AgendaStore>()(
     totalPages: 0,
     filterBy: 'PAQUETES',
     bookingToEdit: null,
+    limits: {
+      paquetes: true,
+      financiero: true
+    },
 
     setPagination: (totalPages: number) => set({ totalPages }),
     setFilterBy: (filterBy: Filter) => set({ filterBy }),

@@ -4,8 +4,8 @@ import { doc, updateDoc } from 'firebase/firestore'
 import z from 'zod'
 
 const adminConfigSchema = z.object({
-  paquetesLimit: z.string(),
-  financieroLimit: z.string()
+  paquetes: z.string(),
+  financiero: z.string()
 })
 
 export const updateAdminConfig = async (values: AdminConfig) => {

@@ -39,7 +39,7 @@ export const AgendaPanelItem = ({ booking }: Props) => {
             <p className="flex items-center gap-x-3 text-xl font-medium text-secondary">
               {booking.school_name}
             </p>
-            <p className="mb-5 text-sm text-gray-700">
+            <p className="mb-5 text-sm text-gray-700 capitalize">
               {booking?.rubro} | {formatWithThousand(booking?.total)} | Por visitar |{' '}
               {booking.created_by}
             </p>
