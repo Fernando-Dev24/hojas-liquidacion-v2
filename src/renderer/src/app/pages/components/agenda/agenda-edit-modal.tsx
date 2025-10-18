@@ -1,23 +1,28 @@
 import { Modal } from '@renderer/components'
 import { BookingForm, bookingFormSchema, ModalProps } from '@renderer/interfaces'
-import { FiPlus } from 'react-icons/fi'
+import { FiEdit } from 'react-icons/fi'
 import DatePicker from 'react-datepicker'
 import { useForm } from 'react-hook-form'
 import { INFRAS } from '@renderer/data/infras/infras'
-import { onCreateBooking } from '@renderer/app/actions'
-import { useLogin, useModals } from '@renderer/store'
+import { useAgendaStore, useModals } from '@renderer/store'
 import { toast } from 'react-toastify'
 import { useQueryClient } from '@tanstack/react-query'
+import { onEditBooking } from '@renderer/app/actions'
 
 interface Props extends ModalProps {}
 
-export const AgendaNewItem = ({ id }: Props) => {
-  const { user } = useLogin()
+export const AgendaEditModal = ({ id }: Props) => {
+  const { bookingToEdit, setBookingToEdit } = useAgendaStore()
   const { toggleModal } = useModals()
   const { register, handleSubmit, setValue, getValues, watch, reset } = useForm<BookingForm>({
-    defaultValues: {
-      total: 0,
-      visitDate: new Date()
+    values: {
+      bookingDepartment: bookingToEdit?.bookingDepartment || 'PAQUETES',
+      description: bookingToEdit?.description || '',
+      infra: bookingToEdit?.infra || '',
+      school_name: bookingToEdit?.school_name || '',
+      total: bookingToEdit?.total || 0,
+      visitDate: bookingToEdit?.visitDate || new Date(),
+      rubro: bookingToEdit?.rubro || ''
     }
   })
   const queryClient = useQueryClient()
@@ -40,20 +45,20 @@ export const AgendaNewItem = ({ id }: Props) => {
   }
 
   const onSubmit = async (values: BookingForm) => {
-    const { ok, message } = await onCreateBooking({
-      values,
-      username: user?.username || null
-    })
+    const { ok, message } = await onEditBooking({ values, id: bookingToEdit?.id || null })
 
     if (!ok) return toast.error(message)
+
     await queryClient.invalidateQueries({ queryKey: ['agenda'] })
-    toast.success(message)
     onCloseModal()
+    setBookingToEdit(null)
+    toast.success(message)
     return
   }
 
   const onCloseModal = () => {
     reset()
+    setBookingToEdit(null)
     toggleModal(id)
   }
 
@@ -123,8 +128,8 @@ export const AgendaNewItem = ({ id }: Props) => {
           </div>
 
           <button type="submit" className="w-full flex justify-center items-center btn-confirm">
-            <FiPlus size={20} className="mr-3" />
-            Crear
+            <FiEdit size={20} className="mr-3" />
+            Editar
           </button>
         </form>
       </div>

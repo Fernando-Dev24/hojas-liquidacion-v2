@@ -1,7 +1,11 @@
-import { formatBookingDate, formatWithThousand } from '@renderer/helpers'
+import { onDeleteBooking } from '@renderer/app/actions'
+import { formatBookingDate, formatWithThousand, handleConfirmDelete } from '@renderer/helpers'
 import { Booking } from '@renderer/interfaces'
+import { useAgendaStore, useModals } from '@renderer/store'
+import { useQueryClient } from '@tanstack/react-query'
 import { FiCheckSquare, FiEdit, FiMoreVertical } from 'react-icons/fi'
 import { LuSchool } from 'react-icons/lu'
+import { toast } from 'react-toastify'
 import { Tooltip } from 'react-tooltip'
 
 interface Props {
@@ -9,6 +13,26 @@ interface Props {
 }
 
 export const AgendaPanelItem = ({ booking }: Props) => {
+  const { setBookingToEdit } = useAgendaStore()
+  const { toggleModal } = useModals()
+  const queryClient = useQueryClient()
+
+  const handleEdit = () => {
+    setBookingToEdit(booking)
+    toggleModal('editBookingModal')
+  }
+
+  const handleDelete = async () => {
+    const isConfirmed = await handleConfirmDelete()
+    if (!isConfirmed) return
+
+    const { ok, message } = await onDeleteBooking(booking.id)
+    if (!ok) return toast.error(message)
+    await queryClient.invalidateQueries({ queryKey: ['agenda'] })
+    toast.success(message)
+    return
+  }
+
   return (
     <>
       <article className="relative mb-8 grid grid-cols-[10%_minmax(75%,_1fr)] gap-x-10 p-10 rounded-xl border border-gray-300 bg-gray-100 shadow">
@@ -72,20 +96,17 @@ export const AgendaPanelItem = ({ booking }: Props) => {
         className="!p-5 !border !border-gray-300 !rounded-lg !shadow-lg !bg-white !z-40"
       >
         <div className="flex flex-col gap-y-5">
-          <button
-            className="user-option-btn"
-            // onClick={handleEditUser}
-          >
+          <button className="user-option-btn" onClick={handleEdit}>
             <FiEdit size={20} className="mr-3" />
             Editar
           </button>
 
           <button
-            className="user-option-btn"
-            // onClick={onDelete}
+            className="user-option-btn !text-white !border-red-600 !bg-red-600 hover:!bg-red-600/90"
+            onClick={handleDelete}
           >
             <FiCheckSquare size={20} className="mr-3" />
-            Visitado
+            Eliminar
           </button>
         </div>
       </Tooltip>

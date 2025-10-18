@@ -11,7 +11,7 @@ interface AgendaStore {
 
   setPagination: (totalPages: number) => void
   setFilterBy: (filterBy: Filter) => void
-  setBookingToEdit: (booking: Booking) => void
+  setBookingToEdit: (booking: Booking | null) => void
   triggerPages: (action: PaginationActions) => void
 }
 

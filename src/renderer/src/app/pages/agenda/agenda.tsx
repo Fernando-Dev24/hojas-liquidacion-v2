@@ -1,6 +1,9 @@
-import { AgendaSidebar, AgendaPanel, AgendaNewItem } from '../components'
+import { useAgendaStore } from '@renderer/store'
+import { AgendaSidebar, AgendaPanel, AgendaNewItem, AgendaEditModal } from '../components'
 
 export const Agenda = () => {
+  const { bookingToEdit } = useAgendaStore()
+
   return (
     <section>
       <section className="container grid grid-cols-[25%_minmax(75%,_1fr)] gap-x-5">
@@ -9,6 +12,7 @@ export const Agenda = () => {
       </section>
 
       <AgendaNewItem id="newBookingModal" />
+      {bookingToEdit && <AgendaEditModal id="editBookingModal" />}
     </section>
   )
 }

@@ -13,6 +13,7 @@ export interface Booking {
   state: string
   total: number
   visitDate: Date
+  createdAt: Date
 }
 
 export interface BookingForm {
@@ -23,7 +24,6 @@ export interface BookingForm {
   school_name: string
   total: number
   visitDate: Date
-  createdAt: Date
 }
 
 export interface BookingOpt {
