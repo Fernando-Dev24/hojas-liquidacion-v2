@@ -8,11 +8,13 @@ interface AgendaStore {
   totalPages: number
   bookingToEdit: Booking | null
   filterBy: Filter
+  searchResults: Booking[]
 
   setPagination: (totalPages: number) => void
   setFilterBy: (filterBy: Filter) => void
   setBookingToEdit: (booking: Booking | null) => void
   triggerPages: (action: PaginationActions) => void
+  setSearchResults: (results: Booking[]) => void
 }
 
 export const useAgendaStore = create<AgendaStore>()(
@@ -25,6 +27,7 @@ export const useAgendaStore = create<AgendaStore>()(
       paquetes: true,
       financiero: true
     },
+    searchResults: [],
 
     setPagination: (totalPages: number) => set({ totalPages }),
     setFilterBy: (filterBy: Filter) => set({ filterBy }),
@@ -48,6 +51,7 @@ export const useAgendaStore = create<AgendaStore>()(
           set({ currentPage: 1 })
           break
       }
-    }
+    },
+    setSearchResults: (results: Booking[]) => set({ searchResults: results })
   }))
 )

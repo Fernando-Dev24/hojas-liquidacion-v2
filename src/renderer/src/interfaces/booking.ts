@@ -51,7 +51,8 @@ export const bookingFormSchema: BookingFormEntry[] = [
     id: 'school_name',
     label: 'Nombre de la escuela',
     component: 'input',
-    type: 'text'
+    type: 'text',
+    wrapperClassName: 'col-span-2'
   },
   {
     id: 'visitDate',
@@ -76,6 +77,7 @@ export const bookingFormSchema: BookingFormEntry[] = [
     label: 'Departamento que realizará la visita',
     component: 'select',
     type: 'text',
+    wrapperClassName: 'col-span-full',
     options: [
       {
         value: 'PAQUETES',

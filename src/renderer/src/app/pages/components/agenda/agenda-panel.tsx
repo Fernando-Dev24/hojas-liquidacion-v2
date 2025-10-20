@@ -1,12 +1,14 @@
 import { getPaginatedBookings } from '@renderer/app/actions'
 import { Empty, Pagination } from '@renderer/components'
-import { useAgendaStore } from '@renderer/store'
+import { useAgendaStore, useModals } from '@renderer/store'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { AgendaPanelItem } from './agenda-panel-item'
+import { AgendaSearchbar } from './agenda-searchbar'
 
 export const AgendaPanel = () => {
   const { currentPage, totalPages, filterBy, setPagination, triggerPages } = useAgendaStore()
+  const { toggleModal } = useModals()
   const {
     data: resp,
     isLoading,
@@ -30,8 +32,10 @@ export const AgendaPanel = () => {
 
   return (
     <section className="py-14">
+      <AgendaSearchbar />
+
       {/* DATA */}
-      {resp.data.length < 1 && <Empty renderBtn={false} />}
+      {resp.data.length < 1 && <Empty renderBtn={true} fn={() => toggleModal('newBookingModal')} />}
       {resp.data.length > 0 &&
         resp.data.map((booking) => <AgendaPanelItem key={booking.id} booking={booking} />)}
 
