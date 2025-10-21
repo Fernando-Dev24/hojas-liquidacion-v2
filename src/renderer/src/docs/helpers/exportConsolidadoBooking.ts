@@ -1,17 +1,17 @@
 import { formatNowDate } from '@renderer/helpers'
-import { ObservationState } from '@renderer/store'
+import { Filter } from '@renderer/interfaces'
 import html2canvas from 'html2canvas-pro'
 import jsPDF, { jsPDFOptions } from 'jspdf'
 import { toast } from 'react-toastify'
 
 interface Props {
-  filter: ObservationState['filterBy']
+  filter: Filter
 }
 
-export const exportConsolidadoFile = async ({ filter }: Props) => {
+export const exportAgendaConsolidado = async ({ filter }: Props) => {
   const pageToExport = document.getElementById('page')
   if (!pageToExport) return
-  const filename = `CONSOLIDADO - ${filter} - ${formatNowDate()}`
+  const filename = `CONSOLIDADO AGENDA - ${filter} - ${formatNowDate()}`
 
   /* Objeto de opciones para configurar el PDF */
   const options = {

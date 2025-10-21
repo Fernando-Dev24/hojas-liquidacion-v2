@@ -1,6 +1,5 @@
 import { handleFilterConsolidado } from '@renderer/helpers'
 import { useLogin, useModals, useObservationsStore } from '@renderer/store'
-import { format, fromUnixTime, getUnixTime } from 'date-fns'
 import { FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 

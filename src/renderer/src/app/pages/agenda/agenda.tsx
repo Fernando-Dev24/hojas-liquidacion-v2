@@ -1,5 +1,6 @@
 import { useAgendaStore } from '@renderer/store'
 import { AgendaSidebar, AgendaPanel, AgendaNewItem, AgendaEditModal } from '../components'
+import { ConsolidadoBookingWrapper } from '@renderer/docs/consolidado-booking-wrapper'
 
 export const Agenda = () => {
   const { bookingToEdit } = useAgendaStore()
@@ -13,6 +14,7 @@ export const Agenda = () => {
 
       <AgendaNewItem id="newBookingModal" />
       {bookingToEdit && <AgendaEditModal id="editBookingModal" />}
+      <ConsolidadoBookingWrapper id="consolidadoBookings" />
     </section>
   )
 }

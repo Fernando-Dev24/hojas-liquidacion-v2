@@ -1,9 +1,9 @@
 import { ObservationPage } from '@renderer/interfaces'
-import { State } from '@renderer/store'
+import { ObservationState } from '@renderer/store'
 
 interface Params {
-  filterBy: State['filterBy']
-  orderBy: State['orderBy']
+  filterBy: ObservationState['filterBy']
+  orderBy: ObservationState['orderBy']
   observations: ObservationPage[]
 }
 

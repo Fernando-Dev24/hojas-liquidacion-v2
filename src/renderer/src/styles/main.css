@@ -185,7 +185,7 @@ section.consolidado-table table thead tr th {
 }
 
 section.consolidado-table table tbody tr td {
-  @apply p-2 border-b border-x border-black uppercase;
+  @apply p-1 border-b border-x border-black uppercase;
 }
 
 /* SEARCH MODAL INPUT */

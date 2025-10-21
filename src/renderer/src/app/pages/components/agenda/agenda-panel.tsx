@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { AgendaPanelItem } from './agenda-panel-item'
 import { AgendaSearchbar } from './agenda-searchbar'
+import { Booking } from '@renderer/interfaces'
 
 export const AgendaPanel = () => {
   const { currentPage, totalPages, filterBy, setPagination, triggerPages } = useAgendaStore()
@@ -24,8 +25,8 @@ export const AgendaPanel = () => {
   })
 
   useEffect(() => {
-    if (resp) setPagination(resp.totalPages)
-  }, [isLoading])
+    if (resp) setPagination(resp.totalPages, resp.data as Booking[])
+  }, [resp, isLoading])
 
   if (isLoading || !resp?.data) return <p>Cargando...</p>
   if (error) return <p>Error al cargar las citas</p>

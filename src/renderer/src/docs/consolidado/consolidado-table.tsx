@@ -20,7 +20,7 @@ export const ConsolidadoTable = () => {
           {observations.length === 0 && (
             <tr>
               <td colSpan={5} className="text-center">
-                No hay observaciones
+                No hay items para mostrar
               </td>
             </tr>
           )}

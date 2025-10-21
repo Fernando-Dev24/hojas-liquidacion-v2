@@ -51,7 +51,7 @@ export const AgendaSidebar = () => {
         Financiero
       </button>
 
-      <button className="agenda-btn-sidebar">
+      <button className="agenda-btn-sidebar" onClick={() => toggleModal('consolidadoBookings')}>
         <FiFile size={20} />
         Consolidado
       </button>

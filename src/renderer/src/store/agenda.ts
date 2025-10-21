@@ -3,24 +3,30 @@ import { devtools } from 'zustand/middleware'
 import type { PaginationActions } from './observations-store'
 import { Booking, Filter } from '@renderer/interfaces'
 
-interface AgendaStore {
+export interface AgendaStore {
   currentPage: number
   totalPages: number
+  bookings: Booking[]
   bookingToEdit: Booking | null
   filterBy: Filter
   searchResults: Booking[]
+  orderedBookings: Booking[]
+  orderBy: 'ASC' | 'DESC'
 
-  setPagination: (totalPages: number) => void
+  setPagination: (totalPages: number, bookings: Booking[]) => void
   setFilterBy: (filterBy: Filter) => void
   setBookingToEdit: (booking: Booking | null) => void
   triggerPages: (action: PaginationActions) => void
   setSearchResults: (results: Booking[]) => void
+  setOrderedBookings: (bookings: Booking[]) => void
+  setOrder: () => void
 }
 
 export const useAgendaStore = create<AgendaStore>()(
   devtools((set, get) => ({
     currentPage: 1,
     totalPages: 0,
+    bookings: [],
     filterBy: 'PAQUETES',
     bookingToEdit: null,
     limits: {
@@ -28,8 +34,9 @@ export const useAgendaStore = create<AgendaStore>()(
       financiero: true
     },
     searchResults: [],
+    orderedBookings: [],
 
-    setPagination: (totalPages: number) => set({ totalPages }),
+    setPagination: (totalPages: number, bookings: Booking[]) => set({ totalPages, bookings }),
     setFilterBy: (filterBy: Filter) => set({ filterBy }),
     setBookingToEdit: (booking: Booking) => {
       set({ bookingToEdit: booking })
@@ -52,6 +59,13 @@ export const useAgendaStore = create<AgendaStore>()(
           break
       }
     },
-    setSearchResults: (results: Booking[]) => set({ searchResults: results })
+    setSearchResults: (results: Booking[]) => set({ searchResults: results }),
+    setOrderedBookings: (bookings: Booking[]) => set({ orderedBookings: bookings }),
+    setOrder: () => {
+      const { orderBy } = get()
+      set({
+        orderBy: orderBy === 'ASC' ? 'DESC' : 'ASC'
+      })
+    }
   }))
 )

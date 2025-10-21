@@ -9,6 +9,7 @@ export interface ModalState {
     editUserModal: false
     newBookingModal: false
     editBookingModal: false
+    consolidadoBookings: false
   }
 
   // FUNCTIONS
@@ -23,7 +24,8 @@ export const useModals = create<ModalState>((set, get) => ({
     createUserModal: false,
     editUserModal: false,
     newBookingModal: false,
-    editBookingModal: false
+    editBookingModal: false,
+    consolidadoBookings: false
   },
 
   /* FUNCTIONS */
