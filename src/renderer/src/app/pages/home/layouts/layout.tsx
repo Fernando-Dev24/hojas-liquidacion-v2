@@ -6,6 +6,7 @@ import { getObservationSchema } from '@renderer/app/actions'
 import { useObservationPDFShema } from '@renderer/store/observation-pdf'
 import { Admin } from '../../admin/ui/admin'
 import { Agenda } from '../../agenda/agenda'
+import { SchoolDirectory } from '../../directory/school-directory'
 
 const Layout = () => {
   const setSchema = useObservationPDFShema((state) => state.setSchema)
@@ -25,6 +26,7 @@ const Layout = () => {
       <Route path="/update/:id" element={<UpdatePage />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/agenda" element={<Agenda />} />
+      <Route path="/directory" element={<SchoolDirectory />} />
       <Route path="/*" element={<Navigate to="/app/home" replace />} />
     </Routes>
   )

@@ -1,6 +1,6 @@
 import { handleFilterConsolidado } from '@renderer/helpers'
 import { useLogin, useModals, useObservationsStore } from '@renderer/store'
-import { FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
+import { FiBookmark, FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 
 export const Landing = () => {
@@ -43,6 +43,14 @@ export const Landing = () => {
         >
           <FiCalendar size={20} className="mr-3" />
           Agenda
+        </button>
+
+        <button
+          className="flex items-center py-3 px-5 shadow rounded bg-secondary text-white duration-150 hover:opacity-90"
+          onClick={() => navigate('/app/directory')}
+        >
+          <FiBookmark size={20} className="mr-3" />
+          Directorio
         </button>
 
         <button

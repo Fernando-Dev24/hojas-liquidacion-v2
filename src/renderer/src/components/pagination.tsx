@@ -5,10 +5,17 @@ interface Props {
   totalPages: number
   currentPage: number
   textColor?: string
+  btnClassName?: string
   triggerCurrentPage: (action: PaginationActions) => void
 }
 
-export const Pagination = ({ totalPages, currentPage, textColor, triggerCurrentPage }: Props) => {
+export const Pagination = ({
+  totalPages,
+  currentPage,
+  textColor,
+  btnClassName,
+  triggerCurrentPage
+}: Props) => {
   return (
     <div className="flex justify-between items-center">
       <span className={textColor}>
@@ -16,19 +23,22 @@ export const Pagination = ({ totalPages, currentPage, textColor, triggerCurrentP
       </span>
       <div className="flex items-center gap-x-5">
         <button
-          className="btn-pagination"
+          className={btnClassName ?? 'btn-pagination'}
           disabled={currentPage === 1}
           onClick={() => triggerCurrentPage('prev')}
         >
           <FiChevronLeft size={20} />
         </button>
 
-        <button className="btn-pagination" onClick={() => triggerCurrentPage('reset')}>
+        <button
+          className={btnClassName ?? 'btn-pagination'}
+          onClick={() => triggerCurrentPage('reset')}
+        >
           <FiHome size={20} />
         </button>
 
         <button
-          className="btn-pagination"
+          className={btnClassName ?? 'btn-pagination'}
           disabled={currentPage === totalPages}
           onClick={() => triggerCurrentPage('next')}
         >

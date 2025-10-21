@@ -1,7 +1,12 @@
+export type Sector = 'PÚBLICO' | 'PRIVADO'
+
 export interface SchoolDirectoryEntry {
-  infra: number
+  id: string
+  infra: string
   name: string
-  sector: 'PÚBLICO' | 'PRIVADO'
+  sector: Sector
   municipio: string
-  nit: number
+  nit: string
+  createdAt: Date
+  updatedAt: Date
 }
