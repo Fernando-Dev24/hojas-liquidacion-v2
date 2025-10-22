@@ -1,4 +1,5 @@
 import { DirectoryNavbar, DirectoryTable } from '../components'
+import { NewDirectoryModal } from '../components/directory/new-directory-modal'
 
 export const SchoolDirectory = () => {
   return (
@@ -18,6 +19,9 @@ export const SchoolDirectory = () => {
 
       {/* TABLE */}
       <DirectoryTable />
+
+      {/* MODALS */}
+      <NewDirectoryModal id="newDirectoryModal" />
     </div>
   )
 }
