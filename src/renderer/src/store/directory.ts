@@ -6,16 +6,19 @@ interface DirectoryState {
   totalPages: number
   currentPage: number
   directoryToEdit: SchoolDirectoryEntry | null
+  searchResults: SchoolDirectoryEntry[]
 
   setPagination: (totalPages: number) => void
   setDirectoryEdit: (directory: SchoolDirectoryEntry | null) => void
   triggerPagination: (action: PaginationActions) => void
+  setSearchResults: (results: SchoolDirectoryEntry[]) => void
 }
 
 export const useDirectory = create<DirectoryState>()((set, get) => ({
   currentPage: 1,
   totalPages: 1,
   directoryToEdit: null,
+  searchResults: [],
 
   setPagination: (totalPages: number) => set({ totalPages }),
   setDirectoryEdit: (directory: SchoolDirectoryEntry | null) => set({ directoryToEdit: directory }),
@@ -35,5 +38,6 @@ export const useDirectory = create<DirectoryState>()((set, get) => ({
         set({ currentPage: 1 })
         break
     }
-  }
+  },
+  setSearchResults: (results: SchoolDirectoryEntry[]) => set({ searchResults: results })
 }))

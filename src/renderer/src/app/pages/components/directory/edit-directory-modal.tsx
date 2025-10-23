@@ -2,17 +2,29 @@ import { Modal } from '@renderer/components'
 import { INFRAS } from '@renderer/data/infras/infras'
 import { directoryFormValues, ModalProps, SchoolDirectoryForm } from '@renderer/interfaces'
 import { useForm } from 'react-hook-form'
-import { FiPlus } from 'react-icons/fi'
+import { FiEdit } from 'react-icons/fi'
 import { RiResetRightFill } from 'react-icons/ri'
 import { NITInputController } from './nit-input-controller'
 import { useQueryClient } from '@tanstack/react-query'
-import { onCreateDirectory } from '@renderer/app/actions'
 import { toast } from 'react-toastify'
+import { useDirectory } from '@renderer/store/directory'
+import { onUpdateDirectory } from '@renderer/app/actions'
+import { useModals } from '@renderer/store'
 
 interface Props extends ModalProps {}
 
-export const NewDirectoryModal = ({ id }: Props) => {
-  const { control, register, handleSubmit, watch, setValue, reset } = useForm<SchoolDirectoryForm>()
+export const EditDirectoryModal = ({ id }: Props) => {
+  const { directoryToEdit, setDirectoryEdit } = useDirectory()
+  const { toggleModal } = useModals()
+  const { control, register, handleSubmit, watch, setValue, reset } = useForm<SchoolDirectoryForm>({
+    values: {
+      infra: directoryToEdit?.infra || '',
+      municipio: directoryToEdit?.municipio || '',
+      name: directoryToEdit?.name || '',
+      nit: directoryToEdit?.nit || '',
+      sector: directoryToEdit?.sector || ''
+    }
+  })
   const query = useQueryClient()
 
   /* FUNCTIONS */
@@ -29,13 +41,16 @@ export const NewDirectoryModal = ({ id }: Props) => {
   }
 
   const onSubmit = async (values: SchoolDirectoryForm) => {
-    const { ok, message } = await onCreateDirectory({ values })
+    const { ok, message } = await onUpdateDirectory({ values, id: directoryToEdit?.id || null })
+
     if (!ok) {
       return toast.error(message)
     }
 
     await query.invalidateQueries({ queryKey: ['directories'] })
     reset()
+    setDirectoryEdit(null)
+    toggleModal(id)
     toast.success(message)
     return
   }
@@ -45,7 +60,7 @@ export const NewDirectoryModal = ({ id }: Props) => {
   return (
     <Modal id={id} className="w-[75%] modal relative !bg-gray-200">
       <div>
-        <h2 className="text-2xl text-secondary font-semibold">Crear nuevo directorio</h2>
+        <h2 className="text-2xl text-secondary font-semibold">Editar directorio</h2>
         <p className="mb-10 text-gray-700">Rellena los campos correctamente</p>
       </div>
 
@@ -97,8 +112,8 @@ export const NewDirectoryModal = ({ id }: Props) => {
             type="submit"
             className="flex items-center gap-x-3 p-2 rounded border border-gray-300 shadow-md cursor-pointer bg-secondary text-white font-medium duration-150 hover:bg-secondary/90"
           >
-            Crear
-            <FiPlus size={20} />
+            Editar
+            <FiEdit size={20} />
           </button>
         </div>
       </form>

@@ -1,5 +1,9 @@
-import { DirectoryNavbar, DirectoryTable } from '../components'
-import { NewDirectoryModal } from '../components/directory/new-directory-modal'
+import {
+  DirectoryNavbar,
+  DirectoryTable,
+  EditDirectoryModal,
+  NewDirectoryModal
+} from '../components'
 
 export const SchoolDirectory = () => {
   return (
@@ -22,6 +26,7 @@ export const SchoolDirectory = () => {
 
       {/* MODALS */}
       <NewDirectoryModal id="newDirectoryModal" />
+      <EditDirectoryModal id="editDirectoryModal" />
     </div>
   )
 }

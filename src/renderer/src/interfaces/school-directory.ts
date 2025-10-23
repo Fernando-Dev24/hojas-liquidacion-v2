@@ -75,6 +75,5 @@ export const directoryValidationSchema = z.object({
   infra: z.string().min(3),
   name: z.string(),
   sector: z.enum(['PÚBLICO', 'PRIVADO']),
-  municipio: z.string(),
-  nit: z.string()
+  municipio: z.string()
 })

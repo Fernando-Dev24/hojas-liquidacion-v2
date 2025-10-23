@@ -14,10 +14,7 @@ export const NITInputController = ({ control, name, defaultValue = '' }: Props) 
   } = useController({
     name,
     control,
-    defaultValue,
-    rules: {
-      required: true
-    }
+    defaultValue
   })
 
   return (

@@ -1,17 +1,26 @@
-import { formatDate } from '@renderer/helpers'
 import { FaSort } from 'react-icons/fa'
-import { FiMoreVertical, FiPlus, FiSearch } from 'react-icons/fi'
+import { FiPlus, FiSearch } from 'react-icons/fi'
 import { Pagination } from '../../../../components/pagination'
 import { useModals } from '@renderer/store'
 import { useQuery } from '@tanstack/react-query'
 import { useDirectory } from '@renderer/store/directory'
-import { getPaginatedDirectories } from '@renderer/app/actions'
-import { useEffect } from 'react'
+import { getPaginatedDirectories, onSearchDirectory } from '@renderer/app/actions'
+import { useEffect, useState } from 'react'
 import { Empty } from '@renderer/components'
+import { DirectoryTableItem } from './directory-table-item'
+import { toast } from 'react-toastify'
 
 export const DirectoryTable = () => {
   const { toggleModal } = useModals()
-  const { totalPages, currentPage, setPagination, triggerPagination } = useDirectory()
+  const {
+    totalPages,
+    searchResults,
+    currentPage,
+    setPagination,
+    setSearchResults,
+    triggerPagination
+  } = useDirectory()
+  const [searchQuery, setSearchQuery] = useState('')
   const {
     data: resp,
     isLoading,
@@ -24,6 +33,37 @@ export const DirectoryTable = () => {
         take: 10
       })
   })
+
+  /* FUNCTIONS */
+  const onChangeSearchQuery = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target
+    if (!value.trim()) {
+      setSearchResults([])
+      setSearchQuery(value)
+      return
+    }
+
+    setSearchQuery(value)
+  }
+
+  const handleSearch = async () => {
+    const toastId = toast.loading('Buscando...')
+    const { ok, message, data } = await onSearchDirectory(searchQuery)
+    if (!ok || !data) {
+      setSearchResults([])
+      return toast.update(toastId, {
+        type: 'error',
+        render: message,
+        isLoading: false,
+        autoClose: 2000,
+        closeButton: true,
+        closeOnClick: true
+      })
+    }
+
+    setSearchResults(data)
+    toast.dismiss(toastId)
+  }
 
   useEffect(() => {
     if (resp) setPagination(resp.totalPages)
@@ -40,8 +80,13 @@ export const DirectoryTable = () => {
           <FiSearch size={20} className="absolute top-1/2 -translate-y-1/2 left-5 text-gray-500" />
           <input
             type="text"
-            placeholder="Buscar por infraestructura o nombre"
+            placeholder="Buscar por infraestructura"
             className="w-full flex items-center gap-x-3 py-3 px-5 ps-12 shadow-md rounded border border-gray-300 text-secondary/90 duration-150 outline-none hover:text-secondary hover:border-gray-400 focus:border-gray-400"
+            value={searchQuery}
+            onChange={(evt) => onChangeSearchQuery(evt)}
+            onKeyDown={(evt) => {
+              if (evt.key === 'Enter') handleSearch()
+            }}
           />
         </div>
 
@@ -97,35 +142,26 @@ export const DirectoryTable = () => {
           </thead>
           {/* body */}
           <tbody>
-            {resp.data.map((item) => (
-              <tr
-                key={item.id}
-                className="bg-white text-secondary border-b border-gray-300 text-base"
-              >
-                <td className="px-6 py-4 w-[10%]">{item.infra}</td>
-                <td className="px-6 py-4 font-semibold text-secondary whitespace-nowrap">
-                  {item.name}
-                </td>
-                <td className="px-6 py-4 capitalize">{item.municipio}</td>
-                <td className="px-6 py-4">{item.sector}</td>
-                <td className="px-6 py-4">{formatDate(item.updatedAt)}</td>
-                <td className="px-6 py-4">
-                  <button>
-                    <FiMoreVertical size={20} />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {searchResults.length >= 1
+              ? searchResults.map((item) => (
+                  <DirectoryTableItem key={item.id} item={item} setSearchQuery={setSearchQuery} />
+                ))
+              : resp.data.map((item) => (
+                  <DirectoryTableItem key={item.id} item={item} setSearchQuery={setSearchQuery} />
+                ))}
           </tbody>
         </table>
-        <div className="px-6 py-5 uppercase border border-t-0 border-gray-200 font-medium text-gray-500">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            triggerCurrentPage={triggerPagination}
-            btnClassName="p-2 rounded shadow border border-gray-300 cursor-pointer duration-150 hover:border-gray-400 hover:text-secondary disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
-          />
-        </div>
+
+        {searchResults.length < 1 && (
+          <div className="px-6 py-5 uppercase border border-t-0 border-gray-200 font-medium text-gray-500">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              triggerCurrentPage={triggerPagination}
+              btnClassName="p-2 rounded shadow border border-gray-300 cursor-pointer duration-150 hover:border-gray-400 hover:text-secondary disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+            />
+          </div>
+        )}
       </div>
     </div>
   )

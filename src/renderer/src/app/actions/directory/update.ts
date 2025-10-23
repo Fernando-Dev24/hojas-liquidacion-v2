@@ -1,12 +1,20 @@
 import { dbPromise } from '@renderer/config/firebase'
 import { directoryValidationSchema, SchoolDirectoryForm } from '@renderer/interfaces'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { doc, serverTimestamp, updateDoc } from 'firebase/firestore'
 
 interface Params {
   values: SchoolDirectoryForm
+  id: string | null
 }
 
-export const onCreateDirectory = async ({ values }: Params) => {
+export const onUpdateDirectory = async ({ values, id }: Params) => {
+  if (!id) {
+    return {
+      ok: false,
+      message: 'ID Invalido'
+    }
+  }
+
   const { data, error } = directoryValidationSchema.safeParse(values)
   if (error) {
     console.log(error)
@@ -18,23 +26,22 @@ export const onCreateDirectory = async ({ values }: Params) => {
 
   try {
     const db = await dbPromise
-    const collectionRef = collection(db, 'directories')
-    await addDoc(collectionRef, {
+    const docRef = doc(db, 'directories', id)
+    await updateDoc(docRef, {
       ...values,
       ...data,
-      createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     })
 
     return {
       ok: true,
-      message: 'Directorio creado correctamente'
+      message: 'Directorio modificado correctamente'
     }
   } catch (error) {
     console.log(error)
     return {
       ok: false,
-      message: 'Error al crear el directorio'
+      message: 'Error al modificar el directorio'
     }
   }
 }

@@ -1,4 +1,5 @@
 import { dbPromise } from '@renderer/config/firebase'
+import { SchoolDirectoryEntry } from '@renderer/interfaces'
 import {
   collection,
   getCountFromServer,
@@ -66,7 +67,7 @@ export const getPaginatedDirectories = async ({ page, take }: Params) => {
           booking.createdAt instanceof Timestamp ? booking.createdAt.toDate() : booking.createdAt,
         updatedAt:
           booking.updatedAt instanceof Timestamp ? booking.updatedAt.toDate() : booking.updatedAt
-      })),
+      })) as SchoolDirectoryEntry[],
       totalPages
     }
   } catch (error) {
