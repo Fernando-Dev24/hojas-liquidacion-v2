@@ -1,9 +1,9 @@
-import { Filter } from '@renderer/interfaces'
-import { useAgendaStore, useModals } from '@renderer/store'
-import clsx from 'clsx'
-import { FiArrowLeft, FiFile, FiPackage, FiPlus } from 'react-icons/fi'
 import { MdAttachMoney } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
+import clsx from 'clsx'
+import { FiArrowLeft, FiFile, FiPackage, FiPlus } from 'react-icons/fi'
+import { useAgendaStore, useModals } from '@renderer/store'
+import { Filter } from '@renderer/interfaces'
 
 export const AgendaSidebar = () => {
   const { filterBy, setFilterBy } = useAgendaStore()

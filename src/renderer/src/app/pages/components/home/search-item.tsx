@@ -1,4 +1,4 @@
-import { formatFirebaseDate, formatWithThousand } from '@renderer/helpers'
+import { formatDate, formatWithThousand } from '@renderer/helpers'
 import { ObservationPage } from '@renderer/interfaces'
 import { FiChevronRight } from 'react-icons/fi'
 import { useItem } from '../../home/hooks'
@@ -28,7 +28,7 @@ export const SearchItem = ({ item, customCloseModal }: Props) => {
         <h5 className="text-2xl font-semibold">{item.department}</h5>
         <p className="text-[12px] text-gray-700">
           {formatWithThousand(item.amount)} | {item.category} | {item.createdBy} |{' '}
-          {formatFirebaseDate(item.date)}
+          {formatDate(item.date)}
         </p>
       </div>
       <span>

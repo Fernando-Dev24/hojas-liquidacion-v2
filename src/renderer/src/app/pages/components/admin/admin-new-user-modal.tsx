@@ -1,12 +1,12 @@
-import { Modal } from '@renderer/components'
-import { ModalProps, UserForm } from '@renderer/interfaces'
-import { userDataInputs } from '../../admin/types/form-types'
 import { useForm } from 'react-hook-form'
 import { FiPlus } from 'react-icons/fi'
-import { onCreateUser } from '@renderer/app/actions'
 import { toast } from 'react-toastify'
-import { useModals } from '@renderer/store'
 import { useQueryClient } from '@tanstack/react-query'
+import { Modal } from '@renderer/components'
+import { useModals } from '@renderer/store'
+import { onCreateUser } from '@renderer/app/actions'
+import { userDataInputs } from '../../admin/types/form-types'
+import { ModalProps, UserForm } from '@renderer/interfaces'
 
 interface Props extends ModalProps {}
 

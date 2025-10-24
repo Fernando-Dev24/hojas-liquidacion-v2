@@ -1,14 +1,14 @@
 import { FaSort } from 'react-icons/fa'
 import { FiPlus, FiSearch } from 'react-icons/fi'
-import { Pagination } from '../../../../components/pagination'
-import { useModals } from '@renderer/store'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
+import { useModals } from '@renderer/store'
+import { Pagination } from '../../../../components/pagination'
+import { Empty } from '@renderer/components'
 import { useDirectory } from '@renderer/store/directory'
 import { getPaginatedDirectories, onSearchDirectory } from '@renderer/app/actions'
-import { useEffect, useState } from 'react'
-import { Empty } from '@renderer/components'
 import { DirectoryTableItem } from './directory-table-item'
-import { toast } from 'react-toastify'
 
 export const DirectoryTable = () => {
   const { toggleModal } = useModals()

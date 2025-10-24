@@ -1,4 +1,5 @@
 import { dbPromise } from '@renderer/config/firebase'
+import { ObservationPage } from '@renderer/interfaces'
 import {
   collection,
   getCountFromServer,
@@ -6,7 +7,8 @@ import {
   limit,
   orderBy,
   query,
-  startAfter
+  startAfter,
+  Timestamp
 } from 'firebase/firestore'
 
 interface Params {
@@ -60,7 +62,10 @@ export const getPaginatedData = async ({ page, take, collName }: Params) => {
 
     return {
       ok: true,
-      data,
+      data: data.map((item) => ({
+        ...item,
+        date: item.date instanceof Timestamp ? item.date.toDate() : item.date
+      })) as ObservationPage[],
       totalPages
     }
   } catch (error) {

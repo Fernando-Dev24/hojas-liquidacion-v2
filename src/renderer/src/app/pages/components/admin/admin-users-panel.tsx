@@ -1,9 +1,9 @@
 import { FiPlus } from 'react-icons/fi'
-import { AdminUserItem } from './admin-user-item'
 import { useQuery } from '@tanstack/react-query'
-import { getUsers } from '@renderer/app/actions'
 import { Empty } from '@renderer/components'
+import { AdminUserItem } from './admin-user-item'
 import { useModals } from '@renderer/store'
+import { getUsers } from '@renderer/app/actions'
 
 export const AdminUsersPanel = () => {
   const { toggleModal } = useModals()

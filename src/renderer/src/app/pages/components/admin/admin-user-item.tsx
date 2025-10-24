@@ -1,11 +1,11 @@
 import { FiEdit, FiMoreVertical, FiTrash, FiUser } from 'react-icons/fi'
 import { Tooltip } from 'react-tooltip'
-import { User } from '@renderer/interfaces'
 import { useQueryClient } from '@tanstack/react-query'
-import { handleConfirmDelete } from '@renderer/helpers'
-import { onDeleteUser, onSignOut } from '@renderer/app/actions'
 import { toast } from 'react-toastify'
 import { useAdminStore, useLogin, useModals } from '@renderer/store'
+import { onDeleteUser, onSignOut } from '@renderer/app/actions'
+import { handleConfirmDelete } from '@renderer/helpers'
+import { User } from '@renderer/interfaces'
 
 interface Props {
   user: User

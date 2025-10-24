@@ -1,15 +1,15 @@
-import { Modal } from '@renderer/components'
-import { INFRAS } from '@renderer/data/infras/infras'
-import { directoryFormValues, ModalProps, SchoolDirectoryForm } from '@renderer/interfaces'
+import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import { FiEdit } from 'react-icons/fi'
 import { RiResetRightFill } from 'react-icons/ri'
-import { NITInputController } from './nit-input-controller'
 import { useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-toastify'
+import { Modal } from '@renderer/components'
+import { NITInputController } from './nit-input-controller'
 import { useDirectory } from '@renderer/store/directory'
 import { onUpdateDirectory } from '@renderer/app/actions'
 import { useModals } from '@renderer/store'
+import { INFRAS } from '@renderer/data/infras/infras'
+import { directoryFormValues, ModalProps, SchoolDirectoryForm } from '@renderer/interfaces'
 
 interface Props extends ModalProps {}
 

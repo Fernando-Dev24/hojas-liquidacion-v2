@@ -1,25 +1,22 @@
 import { Suspense, useEffect, lazy, useCallback } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-
-/* HOOKS */
-// import { useAuthContext } from '../pages/auth/hooks';
+import { useQuery } from '@tanstack/react-query'
+import { useLogin } from '@renderer/store'
 
 /* LAZY AND NOT LAZY COMPONENTS */
 import { Loader } from '../../components'
 const Login = lazy(() => import('../auth/pages/login'))
-/* const Profile = lazy(() => import('../pages/auth/screens/Profile')); */
 
 /* ROUTES */
 import { routes } from './routes'
-import { useQuery } from '@tanstack/react-query'
 import { getUserByName } from '../actions'
-import { useLogin } from '@renderer/store'
 
 const currentUser = {}
 
 export const Router = () => {
   const username = localStorage.getItem('username')
   const password = localStorage.getItem('password')
+  const { setUser, reset, status } = useLogin((state) => state)
 
   const {
     data: user,
@@ -29,8 +26,6 @@ export const Router = () => {
     queryKey: ['get-user'],
     queryFn: () => getUserByName({ username, password })
   })
-
-  const { setUser, reset, status } = useLogin((state) => state)
 
   // si no existe usuario mandamos al usuario a la pagina del login, si existe entonces lo llevamos a la app
   const cb = useCallback(() => {

@@ -1,12 +1,12 @@
-import { handleFilterConsolidado } from '@renderer/helpers'
-import { useLogin, useModals, useObservationsStore } from '@renderer/store'
 import { FiBookmark, FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { useLogin, useModals, useObservationsStore } from '@renderer/store'
+import { handleFilterConsolidado } from '@renderer/helpers'
 
 export const Landing = () => {
   const user = useLogin((state) => state.user)
   const setFilterBy = useObservationsStore((state) => state.setFilterBy)
-  const { toggleModal } = useModals((state) => state)
+  const toggleModal = useModals((state) => state.toggleModal)
   const navigate = useNavigate()
 
   const renderConsolidado = async () => {

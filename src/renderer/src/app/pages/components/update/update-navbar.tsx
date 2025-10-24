@@ -1,10 +1,9 @@
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { FiArrowLeft, FiFile, FiTrash } from 'react-icons/fi'
+import { useLogin, useUpdateForm, useModals } from '@renderer/store'
 import { onDelete, onSave } from '@renderer/app/actions'
 import { handleConfirmDelete, handleSaveAndExit } from '@renderer/helpers'
-import { useLogin, useUpdateForm } from '@renderer/store'
-import { useModals } from '@renderer/store/modal-store'
-import { FiArrowLeft, FiFile, FiTrash } from 'react-icons/fi'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 
 export const UpdateNavbar = () => {
   const toggleModal = useModals((state) => state.toggleModal)

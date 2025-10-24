@@ -1,18 +1,18 @@
 import { FiPlus, FiUsers, FiLogOut } from 'react-icons/fi'
-import el_salvador_logo from '../../../../../../../public/el-salvador-logo.svg'
-import { useLogin } from '@renderer/store'
 import { useNavigate } from 'react-router-dom'
+import { useLogin } from '@renderer/store'
 import { onSignOut } from '@renderer/app/actions'
+import el_salvador_logo from '../../../../../../../public/el-salvador-logo.svg'
 
 export const Navbar = () => {
   const reset = useLogin((state) => state.reset)
   const navigate = useNavigate()
 
   const goToAdmin = () => {
-    navigate('/app/admin', { replace: true })
+    navigate('/app/admin')
   }
 
-  const createNewPage = () => {
+  const goToCreateNewPage = () => {
     navigate('/app/update/new', { replace: true })
   }
 
@@ -31,7 +31,7 @@ export const Navbar = () => {
         <button
           type="button"
           className="flex items-center py-3 px-8 bg-white text-secondary font-medium rounded-full border border-neutral-300 hover:border-secondary duration-150 shadow"
-          onClick={createNewPage}
+          onClick={goToCreateNewPage}
         >
           <FiPlus size={20} className="mr-3" />
           Nueva hoja de observaciones

@@ -1,10 +1,10 @@
-import { getPaginatedBookings } from '@renderer/app/actions'
-import { Empty, Pagination } from '@renderer/components'
-import { useAgendaStore, useModals } from '@renderer/store'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import { Empty, Pagination } from '@renderer/components'
 import { AgendaPanelItem } from './agenda-panel-item'
 import { AgendaSearchbar } from './agenda-searchbar'
+import { useAgendaStore, useModals } from '@renderer/store'
+import { getPaginatedBookings } from '@renderer/app/actions'
 import { Booking } from '@renderer/interfaces'
 
 export const AgendaPanel = () => {

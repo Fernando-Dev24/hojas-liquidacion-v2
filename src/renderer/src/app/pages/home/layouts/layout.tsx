@@ -1,12 +1,12 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { HomePage } from '../ui/home'
-import { UpdatePage } from '../../update/update-page'
 import { useCallback, useEffect } from 'react'
-import { getObservationSchema } from '@renderer/app/actions'
-import { useObservationPDFShema } from '@renderer/store/observation-pdf'
+import { HomePage } from '../ui/home'
 import { Admin } from '../../admin/ui/admin'
+import { UpdatePage } from '../../update/update-page'
 import { Agenda } from '../../agenda/agenda'
 import { SchoolDirectory } from '../../directory/school-directory'
+import { getObservationSchema } from '@renderer/app/actions'
+import { useObservationPDFShema } from '@renderer/store/observation-pdf'
 
 const Layout = () => {
   const setSchema = useObservationPDFShema((state) => state.setSchema)

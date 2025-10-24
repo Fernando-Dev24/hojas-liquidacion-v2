@@ -1,13 +1,13 @@
-import { Modal } from '@renderer/components'
-import { BookingForm, bookingFormSchema, ModalProps } from '@renderer/interfaces'
 import { FiPlus } from 'react-icons/fi'
 import DatePicker from 'react-datepicker'
 import { useForm } from 'react-hook-form'
-import { INFRAS } from '@renderer/data/infras/infras'
-import { onCreateBooking } from '@renderer/app/actions'
-import { useLogin, useModals } from '@renderer/store'
 import { toast } from 'react-toastify'
 import { useQueryClient } from '@tanstack/react-query'
+import { Modal } from '@renderer/components'
+import { useLogin, useModals } from '@renderer/store'
+import { onCreateBooking } from '@renderer/app/actions'
+import { BookingForm, bookingFormSchema, ModalProps } from '@renderer/interfaces'
+import { INFRAS } from '@renderer/data/infras/infras'
 
 interface Props extends ModalProps {}
 

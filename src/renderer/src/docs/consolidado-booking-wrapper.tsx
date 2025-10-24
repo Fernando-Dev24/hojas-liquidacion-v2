@@ -1,9 +1,9 @@
 import { FiArrowDown, FiArrowUp, FiFile } from 'react-icons/fi'
 import { Modal } from '@renderer/components'
-import type { ModalProps } from '@renderer/interfaces'
 import { useAgendaStore } from '@renderer/store'
 import { ConsolidadoAgendaPage } from './consolidado-agenda-page'
 import { exportAgendaConsolidado } from './helpers/exportConsolidadoBooking'
+import type { ModalProps } from '@renderer/interfaces'
 
 interface Props extends ModalProps {}
 

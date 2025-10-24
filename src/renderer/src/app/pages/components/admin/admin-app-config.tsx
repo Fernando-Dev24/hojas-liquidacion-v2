@@ -91,8 +91,6 @@ export const AdminAppConfigPanel = () => {
             </button>
           </div>
         </form>
-
-        {/* BUTTONS */}
       </div>
     </>
   )

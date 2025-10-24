@@ -1,18 +1,19 @@
 import { HashRouter } from 'react-router-dom'
 import { Router } from './app/router/router'
 import { Bounce, ToastContainer } from 'react-toastify'
+import { es } from 'date-fns/locale/es'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { registerLocale, setDefaultLocale } from 'react-datepicker'
 
 /* COMPONENTS */
 import { PDFWrapper, ConsolidadoWrapper } from './docs'
 
 /* STYLES */
 import './styles/main.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import 'react-tooltip/dist/react-tooltip.css'
 import 'react-datepicker/dist/react-datepicker.css'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { es } from 'date-fns/locale/es'
-import { registerLocale, setDefaultLocale } from 'react-datepicker'
 
 // inicializar query client
 const queryClient = new QueryClient()
@@ -39,7 +40,7 @@ function App() {
             closeOnClick
             rtl={false}
             draggable
-            theme="dark"
+            theme="light"
             transition={Bounce}
             toastClassName="toastify-custom-styles"
           />
