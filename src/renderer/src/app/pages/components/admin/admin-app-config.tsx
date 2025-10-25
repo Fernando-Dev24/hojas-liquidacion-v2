@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getAdminConfig, updateAdminConfig } from '@renderer/app/actions'
+import { AdminConfigSkeleton } from './admin-config-skeleton'
 import { configOptions } from '../../admin/types/config-type'
 import type { AdminConfig } from '@renderer/interfaces/admin'
 
@@ -32,13 +33,12 @@ export const AdminAppConfigPanel = () => {
     toast.success(message)
   }
 
-  if (isLoading) return <p>Cargando...</p>
+  if (isLoading) return <AdminConfigSkeleton />
   if (error) return <p>Error al obtener la configuración</p>
 
   return (
     <>
       <div className="relative admin-panel-wrapper">
-        {/* HEADER */}
         <div className="flex items-center gap-x-8 mb-14">
           <span className="p-3 rounded border border-gray-200 text-secondary bg-gray-300/40">
             <FiSettings size={20} />
@@ -51,7 +51,6 @@ export const AdminAppConfigPanel = () => {
           </div>
         </div>
 
-        {/* SETTINGS */}
         <form
           autoComplete="off"
           className="flex flex-col gap-y-12"

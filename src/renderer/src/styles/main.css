@@ -256,3 +256,20 @@ select.modal-input,
 textarea.modal-input {
   @apply w-full p-3 px-5 rounded bg-gray-200/20 border border-gray-300 outline-none duration-150 hover:border-gray-400 focus:border-gray-400 focus:shadow;
 }
+
+/* SKELETONS */
+.skeleton-title {
+  @apply !w-[120px];
+}
+
+.skeleton-p {
+  @apply !w-[260px];
+}
+
+.skeleton-btn {
+  @apply !w-[200px] !h-[40px];
+}
+
+.skeleton-icon {
+  @apply !w-[50px] !h-[50px];
+}

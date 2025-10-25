@@ -6,6 +6,7 @@ import { AgendaSearchbar } from './agenda-searchbar'
 import { useAgendaStore, useModals } from '@renderer/store'
 import { getPaginatedBookings } from '@renderer/app/actions'
 import { Booking } from '@renderer/interfaces'
+import { AgendaPanelSkeleton } from './agenda-panel-skeleton'
 
 export const AgendaPanel = () => {
   const { currentPage, totalPages, filterBy, setPagination, triggerPages } = useAgendaStore()
@@ -28,29 +29,31 @@ export const AgendaPanel = () => {
     if (resp) setPagination(resp.totalPages, resp.data as Booking[])
   }, [resp, isLoading])
 
-  if (isLoading || !resp?.data) return <p>Cargando...</p>
+  if (isLoading || !resp?.data) return <AgendaPanelSkeleton />
   if (error) return <p>Error al cargar las citas</p>
 
   return (
-    <section className="py-14">
-      <AgendaSearchbar />
+    <>
+      <section className="py-14">
+        <AgendaSearchbar />
 
-      {/* DATA */}
-      {resp.data.length < 1 && <Empty renderBtn={true} fn={() => toggleModal('newBookingModal')} />}
-      {resp.data.length > 0 &&
-        resp.data.map((booking) => <AgendaPanelItem key={booking.id} booking={booking} />)}
+        {resp.data.length < 1 && (
+          <Empty renderBtn={true} fn={() => toggleModal('newBookingModal')} />
+        )}
+        {resp.data.length > 0 &&
+          resp.data.map((booking) => <AgendaPanelItem key={booking.id} booking={booking} />)}
 
-      {/* PAGINATION */}
-      {resp.data.length > 0 && (
-        <div className="mt-10 text-white">
-          <Pagination
-            textColor="font-medium text-secondary"
-            currentPage={currentPage}
-            totalPages={totalPages}
-            triggerCurrentPage={triggerPages}
-          />
-        </div>
-      )}
-    </section>
+        {resp.data.length > 0 && (
+          <div className="mt-10 text-white">
+            <Pagination
+              textColor="font-medium text-secondary"
+              currentPage={currentPage}
+              totalPages={totalPages}
+              triggerCurrentPage={triggerPages}
+            />
+          </div>
+        )}
+      </section>
+    </>
   )
 }
