@@ -6,6 +6,32 @@
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://electron-vite.org",
+  "build": {
+    "appId": "com.hojas-liquidacion.v2",
+    "productName": "Hojas Liquidación V2",
+    "directories": {
+      "output": "dist/${version}"
+    },
+    "extraFiles": [
+      {
+        "from": ".env",
+        "to": "resources/.env"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": false,
+      "shortcutName": "Hojas Liquidación V2"
+    }
+  },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",

@@ -4,8 +4,12 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../public/icon.ico?asset'
 import dotenv from 'dotenv'
 
+const envPath = app.isPackaged
+  ? join(process.resourcesPath, '.env') // empaquetado, busca en resources
+  : join(__dirname, '../../.env') // en desarrollo, busca en la raiz del proyecto
+
 dotenv.config({
-  path: join(__dirname, '../../.env')
+  path: envPath
 })
 
 function createWindow(): void {
@@ -35,10 +39,17 @@ function createWindow(): void {
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    console.log('Loading URL:', process.env['ELECTRON_RENDERER_URL'])
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
+    console.log('Loading file:', join(__dirname, '../renderer/index.html'))
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  // Habilitar DevTools en producción para depurar
+  /* if (!is.dev) {
+    mainWindow.webContents.openDevTools()
+  } */
 }
 
 // Pasar variables de entorno al renderer process de forma segura

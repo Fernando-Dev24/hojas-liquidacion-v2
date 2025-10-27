@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: hojas-liquidacion-v2
+appId: com.hojas.liquidacion.v2.app
+productName: Hojas Liquidación V2
 directories:
   buildResources: build
 files:
@@ -9,6 +9,8 @@ files:
   - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+extraFiles:
+  - .env #incluye .env en build
 asarUnpack:
   - resources/**
 win:

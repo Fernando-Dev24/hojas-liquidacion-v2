@@ -12,11 +12,11 @@
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self' 'unsafe-eval' 'unsafe-inline' https: http: data: blob: 'unsafe-allow-scripts'; 
-                   script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com/ https://*.firebaseio.com https://*.googleapis.com https://*.google.com https://*.googletagmanager.com https://fonts.googleapis.com https://fonts.gstatic.com; 
-                   connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.google.com wss://*.firebaseio.com https://api.npoint.io; 
-                   img-src 'self' data: https: http: blob:; 
-                   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; 
-                   font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;"
+               script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.gstatic.com/ https://*.firebaseio.com https://*.googleapis.com https://*.google.com https://*.googletagmanager.com https://fonts.googleapis.com https://fonts.gstatic.com; 
+               connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.google.com wss://*.firebaseio.com https://api.npoint.io;  /* Asegúrate de que wss://*.firebaseio.com esté aquí */
+               img-src 'self' data: https: http: blob:; 
+               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; 
+               font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;"
     />
 
     <!-- FONT -->
@@ -31,6 +31,16 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      window.env = {
+        VITE_FIREBASE_API_KEY: '{{VITE_FIREBASE_API_KEY}}',
+        VITE_FIREBASE_AUTH_DOMAIN: '{{VITE_FIREBASE_AUTH_DOMAIN}}',
+        VITE_FIREBASE_PROJECT_ID: '{{VITE_FIREBASE_PROJECT_ID}}',
+        VITE_FIREBASE_STORAGE_BUCKET: '{{VITE_FIREBASE_STORAGE_BUCKET}}',
+        VITE_FIREBASE_MESSAGING_SENDER_ID: '{{VITE_FIREBASE_MESSAGING_SENDER_ID}}',
+        VITE_FIREBASE_APP_ID: '{{VITE_FIREBASE_APP_ID}}'
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
