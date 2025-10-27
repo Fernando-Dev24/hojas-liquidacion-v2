@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { Empty, Pagination } from '@renderer/components'
+import { Empty, Pagination, Error } from '@renderer/components'
 import { AgendaPanelItem } from './agenda-panel-item'
 import { AgendaSearchbar } from './agenda-searchbar'
 import { useAgendaStore, useModals } from '@renderer/store'
@@ -30,7 +30,7 @@ export const AgendaPanel = () => {
   }, [resp, isLoading])
 
   if (isLoading || !resp?.data) return <AgendaPanelSkeleton />
-  if (error) return <p>Error al cargar las citas</p>
+  if (error) return <Error errorLabel="los datos de agenda" />
 
   return (
     <>

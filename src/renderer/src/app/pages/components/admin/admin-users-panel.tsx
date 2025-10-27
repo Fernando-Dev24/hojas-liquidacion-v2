@@ -1,6 +1,6 @@
 import { FiPlus } from 'react-icons/fi'
 import { useQuery } from '@tanstack/react-query'
-import { Empty } from '@renderer/components'
+import { Empty, Error } from '@renderer/components'
 import { AdminUserItem } from './admin-user-item'
 import { useModals } from '@renderer/store'
 import { getUsers } from '@renderer/app/actions'
@@ -19,7 +19,7 @@ export const AdminUsersPanel = () => {
   })
 
   if (isLoading) return <AdminUsersSkeleton />
-  if (error) return <div>Error al obtener los usuarios</div>
+  if (error) return <Error errorLabel="los usuarios" />
 
   return (
     <>

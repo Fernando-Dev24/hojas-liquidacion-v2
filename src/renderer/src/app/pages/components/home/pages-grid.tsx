@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Pagination } from '@renderer/components'
+import { Pagination, Error } from '@renderer/components'
 import { GridItem } from './grid-item'
 import { useObservationsStore } from '@renderer/store'
 import { getPaginatedData } from '@renderer/app/actions'
@@ -32,7 +32,7 @@ export const PagesGrid = () => {
   }, [, currentPage, isLoading])
 
   if (isLoading || !resp?.data) return <HomeSkeleton />
-  if (error) return <p>Error al obtener los datos</p>
+  if (error) return <Error errorLabel="las hojas de observaciones" />
 
   return (
     <>

@@ -70,10 +70,6 @@ export const getPaginatedData = async ({ page, take, collName }: Params) => {
     }
   } catch (error) {
     console.log(error)
-    return {
-      ok: false,
-      data: null,
-      totalPages: 0
-    }
+    throw new Error('Error al obtener hojas de observación')
   }
 }

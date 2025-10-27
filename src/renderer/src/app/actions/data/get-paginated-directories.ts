@@ -72,10 +72,6 @@ export const getPaginatedDirectories = async ({ page, take }: Params) => {
     }
   } catch (error) {
     console.log(error)
-    return {
-      ok: false,
-      data: null,
-      totalPages: 1
-    }
+    throw new Error('Error al obtener directorios')
   }
 }

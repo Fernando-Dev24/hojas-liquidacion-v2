@@ -40,7 +40,7 @@ function App() {
             closeOnClick
             rtl={false}
             draggable
-            theme="light"
+            theme="dark"
             transition={Bounce}
             toastClassName="toastify-custom-styles"
           />

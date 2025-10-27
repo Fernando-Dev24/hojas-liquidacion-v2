@@ -12,6 +12,6 @@ export const getAdminConfig = async () => {
     return data as AdminConfig
   } catch (error) {
     console.log(error)
-    return null
+    throw new Error('Error al obtener datos de configuración')
   }
 }

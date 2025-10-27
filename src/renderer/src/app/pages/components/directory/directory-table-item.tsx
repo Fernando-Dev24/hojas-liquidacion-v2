@@ -10,10 +10,9 @@ import { Tooltip } from 'react-tooltip'
 
 interface Props {
   item: SchoolDirectoryEntry
-  setSearchQuery: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const DirectoryTableItem = ({ item, setSearchQuery }: Props) => {
+export const DirectoryTableItem = ({ item }: Props) => {
   const { toggleModal } = useModals()
   const { searchResults, setSearchResults, setDirectoryEdit } = useDirectory()
   const query = useQueryClient()
@@ -33,7 +32,6 @@ export const DirectoryTableItem = ({ item, setSearchQuery }: Props) => {
     // Validar si se ha eliminado de los resultados
     if (searchResults.length >= 1) {
       setSearchResults([])
-      setSearchQuery('')
     }
 
     await query.invalidateQueries({ queryKey: ['directories'] })

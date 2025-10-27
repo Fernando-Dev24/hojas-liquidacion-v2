@@ -6,6 +6,7 @@ import {
   getDocs,
   limit,
   orderBy,
+  Query,
   query,
   startAfter,
   Timestamp,
@@ -24,7 +25,7 @@ export const getPaginatedBookings = async ({ page, take, filterBy }: Params) => 
     const collectionRef = collection(db, 'bookings')
 
     // CALCULAR EL DOCUMENTO INICIAL PARA LA PAGINACION
-    let dataQuery
+    let dataQuery: Query
     if (page === 1) {
       dataQuery = query(
         collectionRef,
@@ -81,10 +82,6 @@ export const getPaginatedBookings = async ({ page, take, filterBy }: Params) => 
     }
   } catch (error) {
     console.log(error)
-    return {
-      ok: false,
-      data: null,
-      totalPages: 0
-    }
+    throw new Error('Error al obtener dato de agenda')
   }
 }

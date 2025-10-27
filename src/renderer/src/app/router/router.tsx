@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useLogin } from '@renderer/store'
 
 /* LAZY AND NOT LAZY COMPONENTS */
-import { Loader } from '../../components'
+import { Loader, Error } from '../../components'
 const Login = lazy(() => import('../auth/pages/login'))
 
 /* ROUTES */
@@ -38,7 +38,7 @@ export const Router = () => {
   useEffect(() => cb(), [cb])
 
   if (isLoading) return <Loader />
-  if (error) return <div>Error al cargar usuarios, recarga la página dentro de un minuto</div>
+  if (error) return <Error errorLabel="el usuario" />
 
   return (
     <Suspense fallback={<Loader />}>

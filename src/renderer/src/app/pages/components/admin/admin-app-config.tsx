@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { getAdminConfig, updateAdminConfig } from '@renderer/app/actions'
 import { AdminConfigSkeleton } from './admin-config-skeleton'
+import { Error } from '@renderer/components'
 import { configOptions } from '../../admin/types/config-type'
 import type { AdminConfig } from '@renderer/interfaces/admin'
 
@@ -13,8 +14,17 @@ export const AdminAppConfigPanel = () => {
     queryFn: getAdminConfig
   })
 
-  const { register, handleSubmit, reset } = useForm<AdminConfig>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isDirty }
+  } = useForm<AdminConfig>({
     values: {
+      financiero: data?.financiero || 'no-limit',
+      paquetes: data?.paquetes || 'no-limit'
+    },
+    defaultValues: {
       financiero: data?.financiero || 'no-limit',
       paquetes: data?.paquetes || 'no-limit'
     }
@@ -34,7 +44,7 @@ export const AdminAppConfigPanel = () => {
   }
 
   if (isLoading) return <AdminConfigSkeleton />
-  if (error) return <p>Error al obtener la configuración</p>
+  if (error) return <Error errorLabel="los datos de configuración" />
 
   return (
     <>
@@ -84,7 +94,11 @@ export const AdminAppConfigPanel = () => {
             >
               Cancelar
             </button>
-            <button type="submit" className="btn-confirm">
+            <button
+              type="submit"
+              className="btn-confirm disabled:!bg-secondary/50 disabled:!cursor-not-allowed"
+              disabled={!isDirty}
+            >
               <FiCheck size={20} className="mr-3" />
               Aplicar
             </button>
