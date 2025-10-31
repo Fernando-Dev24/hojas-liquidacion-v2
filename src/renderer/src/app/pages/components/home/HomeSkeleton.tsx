@@ -3,64 +3,28 @@ import Skeleton from 'react-loading-skeleton'
 export const HomeSkeleton = () => {
   return (
     <article className="container my-30">
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 animate-pulse">
-          <thead className="text-xs uppercase bg-gray-400/70 text-gray-300">
-            <tr>
-              <th scope="col" className="px-6 py-5">
+      <div className="grid grid-cols-3 gap-5">
+        {Array.from([1, 2, 3, 4, 5, 6]).map((_, index) => (
+          <div
+            key={index}
+            className="relative flex flex-col bg-white shadow-sm border border-gray-300 rounded-lg duration-150 cursor-pointer"
+          >
+            <div className="p-10">
+              <p className="text-sm text-gray-600 capitalize">
                 <Skeleton />
-              </th>
-              <th scope="col" className="px-6 py-5">
+              </p>
+              <h5 className="mb-2 text-slate-800 text-lg font-semibold">
                 <Skeleton />
-              </th>
-              <th scope="col" className="px-6 py-5">
+              </h5>
+              <p className="text-slate-600 leading-normal font-light">
                 <Skeleton />
-              </th>
-              <th scope="col" className="px-6 py-5">
+              </p>
+              <p className="text-slate-600 leading-normal font-normal">
                 <Skeleton />
-              </th>
-              <th scope="col" className="px-6 py-5">
-                <Skeleton />
-              </th>
-              <th scope="col" className="px-6 py-5">
-                <Skeleton />
-              </th>
-              <th scope="col" className="px-6 py-5">
-                <Skeleton />
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border-b bg-gray-400/70 text-white duration-150">
-              <td className="px-6 py-4">
-                <Skeleton />
-              </td>
-              <th scope="row" className="px-6 py-4 font-medium text-white">
-                <Skeleton />
-              </th>
-              <td className="px-6 py-4">
-                <Skeleton />
-              </td>
-              <td className="px-6 py-4">
-                <Skeleton />
-              </td>
-              <td className="px-6 py-4 capitalize">
-                <Skeleton />
-              </td>
-              {
-                <td className="px-6 py-4">
-                  <Skeleton />
-                </td>
-              }
-              <td className="px-6 py-4 text-right">
-                <Skeleton />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div className="px-6 py-5 text-white inset-shadow-teal-50 bg-gray-400/70 animate-pulse">
-          <Skeleton />
-        </div>
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </article>
   )

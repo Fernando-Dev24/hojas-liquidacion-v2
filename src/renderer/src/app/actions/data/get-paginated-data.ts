@@ -8,28 +8,35 @@ import {
   orderBy,
   query,
   startAfter,
-  Timestamp
+  Timestamp,
+  where
 } from 'firebase/firestore'
 
 interface Params {
   page: number
   take: number
-  collName: string
+  filterByCompleted: boolean
 }
 
-export const getPaginatedData = async ({ page, take, collName }: Params) => {
+export const getPaginatedData = async ({ page, take, filterByCompleted }: Params) => {
   try {
     const db = await dbPromise
-    const collectionRef = collection(db, collName)
+    const collectionRef = collection(db, 'observations_pages')
 
     // CALCULAR EL DOCUMENTO INICIAL PARA LA PAGINACION
     let dataQuery
     if (page === 1) {
-      dataQuery = query(collectionRef, orderBy('date', 'desc'), limit(take))
+      dataQuery = query(
+        collectionRef,
+        where('isCompleted', '==', filterByCompleted),
+        orderBy('date', 'desc'),
+        limit(take)
+      )
     } else {
       // OBTENER EL ULTIMO DOCUMENTO DE LA PAGINA ANTERIOR
       const previousPageQuery = query(
         collectionRef,
+        where('isCompleted', '==', filterByCompleted),
         orderBy('date', 'desc'),
         limit((page - 1) * take)
       )
@@ -39,6 +46,7 @@ export const getPaginatedData = async ({ page, take, collName }: Params) => {
 
       dataQuery = query(
         collectionRef,
+        where('isCompleted', '==', filterByCompleted),
         orderBy('date', 'desc'),
         limit(take),
         startAfter(lastVisible)
@@ -55,8 +63,16 @@ export const getPaginatedData = async ({ page, take, collName }: Params) => {
       }
     })
 
+    if (data.length < 1) {
+      return {
+        ok: true,
+        data: [],
+        totalPages: 1
+      }
+    }
+
     // Calcular el total de paginas segun la cantidad total de elementos en la coleccion
-    const countSnapshot = await getCountFromServer(collectionRef)
+    const countSnapshot = await getCountFromServer(dataQuery)
     const total = countSnapshot.data().count
     const totalPages = Math.ceil(total / take)
 
@@ -70,6 +86,10 @@ export const getPaginatedData = async ({ page, take, collName }: Params) => {
     }
   } catch (error) {
     console.log(error)
-    throw new Error('Error al obtener hojas de observación')
+    return {
+      ok: true,
+      data: [],
+      totalPages: 1
+    }
   }
 }

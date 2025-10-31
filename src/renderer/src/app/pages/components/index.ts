@@ -4,6 +4,8 @@ export { Landing } from './home/landing'
 export { PagesGrid } from './home/pages-grid'
 export { GridItem } from './home/grid-item'
 export { SearchObservationModal } from './home/search-observations-modal'
+export { FilterToggle } from './home/filter-toggle'
+export { ObservationPagination } from './home/observation-pagination'
 
 /* UPDATE OBSERVATION */
 export { UpdateNavbar } from './update/update-navbar'

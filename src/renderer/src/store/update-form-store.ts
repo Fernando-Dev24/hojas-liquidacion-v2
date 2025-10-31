@@ -1,7 +1,6 @@
 import { ChangeEvent } from 'react'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import { Timestamp } from 'firebase/firestore'
 import { generateUUID } from '@renderer/helpers'
 import { INFRAS } from '@renderer/data/infras/infras'
 import { Observation, ObservationPage, ObservationPageFormValues } from '@renderer/interfaces'
@@ -19,6 +18,7 @@ interface State {
   updateDate: (date: Date) => void
   insertItem: () => void
   updateItem: ({ id, evt }: UpdateItem) => void
+  updateState: (newState: boolean) => void
   deleteItem: (id: string) => void
   setForm: (data: ObservationPage) => void
   reset: () => void
@@ -34,7 +34,8 @@ const formInitialState = {
   amount: 0,
   filledBy: '',
   category: 'PAQUETES' as const,
-  observations: []
+  observations: [],
+  isCompleted: false
 }
 
 export const useUpdateForm = create<State>()(
@@ -88,20 +89,12 @@ export const useUpdateForm = create<State>()(
       })
     },
 
-    insertItem: () => {
+    updateState: (newState: boolean) => {
       const { form } = get()
-
-      const newItem: Observation = {
-        id: generateUUID(),
-        observation_content: '',
-        observation_place: '',
-        observation_state: ''
-      }
-
       set({
         form: {
           ...form,
-          observations: [...form.observations, newItem]
+          isCompleted: newState
         }
       })
     },
@@ -129,6 +122,24 @@ export const useUpdateForm = create<State>()(
       })
     },
 
+    insertItem: () => {
+      const { form } = get()
+
+      const newItem: Observation = {
+        id: generateUUID(),
+        observation_content: '',
+        observation_place: '',
+        observation_state: ''
+      }
+
+      set({
+        form: {
+          ...form,
+          observations: [...form.observations, newItem]
+        }
+      })
+    },
+
     deleteItem: (id) => {
       const { form } = get()
       set({
@@ -142,8 +153,7 @@ export const useUpdateForm = create<State>()(
     setForm: (data: ObservationPage) => {
       set({
         form: {
-          ...data,
-          date: data.date instanceof Timestamp ? data.date.toDate() : data.date
+          ...data
         }
       })
     },

@@ -1,4 +1,3 @@
-import { FiEye } from 'react-icons/fi'
 import { formatDate, formatWithThousand } from '@renderer/helpers'
 import { ObservationPage } from '@renderer/interfaces'
 import { useItem } from '../../home/hooks'
@@ -11,24 +10,20 @@ export const GridItem = ({ data }: Props) => {
   const { handleNavigate } = useItem(data)
 
   return (
-    <tr className="border-b bg-secondary border-gray-700 hover:bg-secondary/90 text-white duration-150">
-      <td className="px-6 py-4">{data.infra}</td>
-      <th scope="row" className="px-6 py-4 font-medium text-white">
-        {data.school_name}
-      </th>
-      <td className="px-6 py-4">{data.department}</td>
-      <td className="px-6 py-4">{formatWithThousand(data.amount)}</td>
-      <td className="px-6 py-4 capitalize">{data.createdBy}</td>
-      {<td className="px-6 py-4">{formatDate(data.date)}</td>}
-      <td className="px-6 py-4 text-right">
-        <button
-          className="flex items-center py-2 px-4 rounded bg-gray-600 cursor-pointer hover:bg-secondary/90 duration-150"
-          onClick={handleNavigate}
-        >
-          <FiEye size={15} className="mr-3" />
-          Ver
-        </button>
-      </td>
-    </tr>
+    <div
+      className="relative flex flex-col bg-white shadow-sm border border-gray-400 rounded-lg duration-150 hover:bg-slate-100/80 cursor-pointer"
+      onClick={handleNavigate}
+    >
+      <div className="p-10">
+        <p className="text-sm text-gray-600 capitalize">
+          {data.infra} - {data.createdBy} - {formatDate(data.date)}
+        </p>
+        <h5 className="mb-2 text-slate-800 text-lg font-semibold">{data.school_name}</h5>
+        <p className="text-slate-600 leading-normal font-light">{data.department}</p>
+        <p className="text-slate-600 leading-normal font-normal">
+          {formatWithThousand(data.amount)}
+        </p>
+      </div>
+    </div>
   )
 }

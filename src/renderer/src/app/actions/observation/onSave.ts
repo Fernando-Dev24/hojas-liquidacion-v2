@@ -82,6 +82,7 @@ export const onCreate = async (data: any, username: string) => {
     const newReportData = {
       ...data,
       reportId: resp?.correlativo,
+      isCompleted: false,
       createdBy: username,
       createdAt: getUnixTime(new Date())
     }

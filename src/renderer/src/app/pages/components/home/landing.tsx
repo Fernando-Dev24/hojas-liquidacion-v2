@@ -2,6 +2,7 @@ import { FiBookmark, FiCalendar, FiFile, FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { useLogin, useModals, useObservationsStore } from '@renderer/store'
 import { handleFilterConsolidado } from '@renderer/helpers'
+import { FilterToggle } from './filter-toggle'
 
 export const Landing = () => {
   const user = useLogin((state) => state.user)
@@ -60,6 +61,8 @@ export const Landing = () => {
           <FiFile size={20} className="mr-3" />
           Consolidado
         </button>
+
+        <FilterToggle />
       </nav>
     </section>
   )

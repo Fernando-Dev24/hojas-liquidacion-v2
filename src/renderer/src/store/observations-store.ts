@@ -10,9 +10,10 @@ export interface ObservationState {
   searchResults: ObservationPage[]
   totalPages: number
   currentPage: number
+  totalDebt: number
   filterBy: 'PAQUETES' | 'FINANCIERO'
   orderBy: 'ASC' | 'DESC'
-  totalDebt: number
+  filterByCompleted: boolean
 
   /* FUNCTIONS */
   setObservations: (observations: ObservationPage[]) => void
@@ -22,6 +23,7 @@ export interface ObservationState {
   setOrder: () => void
   setConsolidadoData: (orderedObs: ObservationPage[], total: number) => void
   setSearchResults: (results: ObservationPage[]) => void
+  setFilterByCompleted: (filter: boolean) => void
 }
 
 const initialState = {
@@ -32,7 +34,8 @@ const initialState = {
   currentPage: 1,
   filterBy: 'PAQUETES',
   orderBy: 'ASC',
-  totalDebt: 0
+  totalDebt: 0,
+  filterByCompleted: false
 }
 
 export const useObservationsStore = create<ObservationState>()(
@@ -88,6 +91,12 @@ export const useObservationsStore = create<ObservationState>()(
     setSearchResults: (results: ObservationPage[]) => {
       set({
         searchResults: results
+      })
+    },
+
+    setFilterByCompleted: (filter: boolean) => {
+      set({
+        filterByCompleted: filter
       })
     }
   }))

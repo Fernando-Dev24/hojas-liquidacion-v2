@@ -11,6 +11,7 @@ export interface ObservationPage {
   id: string
   reportId: number
   school_name: string
+  isCompleted: boolean
 }
 
 export interface Observation {
@@ -33,6 +34,7 @@ export interface ObservationPageFormValues {
   observations: Observation[]
   created?: number | null
   createdBy?: string | null
+  isCompleted: boolean
 }
 
 export interface UpdateFormValues {

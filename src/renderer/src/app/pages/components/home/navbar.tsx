@@ -5,7 +5,7 @@ import { onSignOut } from '@renderer/app/actions'
 import el_salvador_logo from '../../../../../../../public/el-salvador-logo.svg'
 
 export const Navbar = () => {
-  const reset = useLogin((state) => state.reset)
+  const { reset, user } = useLogin((state) => state)
   const navigate = useNavigate()
 
   const goToAdmin = () => {
@@ -39,12 +39,14 @@ export const Navbar = () => {
       </article>
 
       <article className="flex items-center gap-x-3">
-        <button
-          className="py-2 px-4 rounded-md border border-white hover:bg-white hover:text-secondary duration-150"
-          onClick={goToAdmin}
-        >
-          <FiUsers size={20} />
-        </button>
+        {user?.roles.includes('admin') && (
+          <button
+            className="py-2 px-4 rounded-md border border-white hover:bg-white hover:text-secondary duration-150"
+            onClick={goToAdmin}
+          >
+            <FiUsers size={20} />
+          </button>
+        )}
 
         <button
           className="py-2 px-4 rounded-md border border-white hover:bg-white hover:text-secondary duration-150"

@@ -1,7 +1,7 @@
 import { onDeleteDirectory } from '@renderer/app/actions'
 import { formatDate, handleConfirmDelete } from '@renderer/helpers'
 import { SchoolDirectoryEntry } from '@renderer/interfaces'
-import { useModals } from '@renderer/store'
+import { useLogin, useModals } from '@renderer/store'
 import { useDirectory } from '@renderer/store/directory'
 import { useQueryClient } from '@tanstack/react-query'
 import { FiEdit, FiMoreVertical, FiTrash } from 'react-icons/fi'
@@ -13,6 +13,7 @@ interface Props {
 }
 
 export const DirectoryTableItem = ({ item }: Props) => {
+  const { user } = useLogin()
   const { toggleModal } = useModals()
   const { searchResults, setSearchResults, setDirectoryEdit } = useDirectory()
   const query = useQueryClient()
@@ -48,9 +49,11 @@ export const DirectoryTableItem = ({ item }: Props) => {
         <td className="px-6 py-4">{item.sector}</td>
         <td className="px-6 py-4">{formatDate(item.updatedAt)}</td>
         <td className="px-6 py-4">
-          <button data-tooltip-id={`directory-options-${item.id}`} className="cursor-pointer">
-            <FiMoreVertical size={20} />
-          </button>
+          {user?.roles.includes('admin') && (
+            <button data-tooltip-id={`directory-options-${item.id}`} className="cursor-pointer">
+              <FiMoreVertical size={20} />
+            </button>
+          )}
 
           <Tooltip
             clickable

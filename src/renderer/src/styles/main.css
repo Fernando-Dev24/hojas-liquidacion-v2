@@ -273,3 +273,8 @@ textarea.modal-input {
 .skeleton-icon {
   @apply !w-[50px] !h-[50px];
 }
+
+/* PAGINATION GRID BUTTONS */
+.pagination-observation-btn {
+  @apply py-3 px-6 rounded shadow-lg border border-gray-300 bg-white cursor-pointer text-secondary hover:border-gray-400 disabled:opacity-50 disabled:cursor-not-allowed;
+}

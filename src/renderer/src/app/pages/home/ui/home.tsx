@@ -2,7 +2,7 @@ import { Navbar, Landing, PagesGrid, SearchObservationModal } from '../../compon
 
 export const HomePage = () => {
   return (
-    <section>
+    <section className="bg-gray-100">
       <Navbar />
       <Landing />
       <PagesGrid />

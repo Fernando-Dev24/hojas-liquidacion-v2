@@ -101,12 +101,9 @@ export const AgendaPanelItem = ({ booking }: Props) => {
             Editar
           </button>
 
-          <button
-            className="user-option-btn !text-white !border-red-600 !bg-red-600 hover:!bg-red-600/90"
-            onClick={handleDelete}
-          >
+          <button className="user-option-btn" onClick={handleDelete}>
             <FiCheckSquare size={20} className="mr-3" />
-            Eliminar
+            Marcar como visitada
           </button>
         </div>
       </Tooltip>

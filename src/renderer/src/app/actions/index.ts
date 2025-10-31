@@ -15,6 +15,7 @@ export { getPaginatedDirectories } from './data/get-paginated-directories'
 export { onSave } from './observation/onSave'
 export { onSearch } from './observation/onSearch'
 export { onDelete } from './observation/onDelete'
+export { updateObservationState } from './observation/update-observation-state'
 
 /* ACTIONS - ADMIN */
 export { onCreateUser } from './admin/create-user'

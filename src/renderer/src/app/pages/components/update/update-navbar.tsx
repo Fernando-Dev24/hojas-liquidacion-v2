@@ -1,13 +1,13 @@
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
-import { FiArrowLeft, FiFile, FiTrash } from 'react-icons/fi'
+import { FiArrowLeft, FiCheckSquare, FiFile, FiTrash } from 'react-icons/fi'
 import { useLogin, useUpdateForm, useModals } from '@renderer/store'
-import { onDelete, onSave } from '@renderer/app/actions'
+import { onDelete, onSave, updateObservationState } from '@renderer/app/actions'
 import { handleConfirmDelete, handleSaveAndExit } from '@renderer/helpers'
 
 export const UpdateNavbar = () => {
   const toggleModal = useModals((state) => state.toggleModal)
-  const { form, reset } = useUpdateForm((state) => state)
+  const { form, updateState, reset } = useUpdateForm((state) => state)
   const user = useLogin((state) => state.user)
   const navigate = useNavigate()
 
@@ -53,30 +53,52 @@ export const UpdateNavbar = () => {
     toast.success(message)
   }
 
+  const handlePageState = async () => {
+    const { ok, message } = await updateObservationState({
+      id: form?.id || null,
+      newState: !form?.isCompleted
+    })
+
+    if (!ok) return toast.error(message)
+
+    // Actualizar el estado de la pagina incluyendo el cambio de estado
+    updateState(!form.isCompleted || false)
+    toast.success(message)
+    return
+  }
+
   const viewPDF = () => {
     toggleModal('pdfModal')
   }
 
   return (
     <nav className="py-10 flex justify-between items-center">
-      <button className="button_class" onClick={handleExit}>
-        <FiArrowLeft size={20} className="mr-3" />
-        Regresar
-      </button>
+      <div className="flex items-center gap-x-5">
+        <button className="button_class" onClick={handleExit}>
+          <FiArrowLeft size={20} className="mr-3" />
+          Regresar
+        </button>
+        <p className="text-gray-600"> Estado: {form?.isCompleted ? 'Completado' : 'Pendiente'} </p>
+      </div>
 
       {form.id && (
         <article className="flex items-center gap-x-5">
+          <button className="button_class" onClick={handlePageState}>
+            <FiCheckSquare size={20} className="mr-3" />
+            Objetivos {form?.isCompleted ? 'Completados' : 'Pendientes'}
+          </button>
+
+          <button className="button_class" onClick={viewPDF}>
+            <FiFile size={20} className="mr-3" />
+            Ver PDF
+          </button>
+
           <button
             className={`button_class !text-red-600 !border-red-600 hover:!bg-red-600 hover:!text-white`}
             onClick={handleDelete}
           >
             <FiTrash size={20} className="mr-3" />
             Eliminar
-          </button>
-
-          <button className="button_class" onClick={viewPDF}>
-            <FiFile size={20} className="mr-3" />
-            Ver PDF
           </button>
         </article>
       )}
