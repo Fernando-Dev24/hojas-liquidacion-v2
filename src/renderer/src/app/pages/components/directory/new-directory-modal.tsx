@@ -4,7 +4,7 @@ import { FiPlus } from 'react-icons/fi'
 import { RiResetRightFill } from 'react-icons/ri'
 import { Modal } from '@renderer/components'
 import { useQueryClient } from '@tanstack/react-query'
-import { NITInputController } from './nit-input-controller'
+import { MaskInputController } from './mask-input-controller'
 import { onCreateDirectory } from '@renderer/app/actions'
 import { directoryFormValues, ModalProps, SchoolDirectoryForm } from '@renderer/interfaces'
 import { INFRAS } from '@renderer/data/infras/infras'
@@ -79,7 +79,13 @@ export const NewDirectoryModal = ({ id }: Props) => {
               </select>
             )}
             {item.component === 'controller' && (
-              <NITInputController control={control} name={item.name} defaultValue="" />
+              <MaskInputController
+                mask={item.mask || ''}
+                placeholder={item.label}
+                control={control}
+                name={item.name}
+                defaultValue=""
+              />
             )}
           </div>
         ))}

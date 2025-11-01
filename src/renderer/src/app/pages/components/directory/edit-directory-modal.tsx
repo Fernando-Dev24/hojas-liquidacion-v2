@@ -4,7 +4,7 @@ import { FiEdit } from 'react-icons/fi'
 import { RiResetRightFill } from 'react-icons/ri'
 import { useQueryClient } from '@tanstack/react-query'
 import { Modal } from '@renderer/components'
-import { NITInputController } from './nit-input-controller'
+import { MaskInputController } from './mask-input-controller'
 import { useDirectory } from '@renderer/store/directory'
 import { onUpdateDirectory } from '@renderer/app/actions'
 import { useModals } from '@renderer/store'
@@ -22,7 +22,10 @@ export const EditDirectoryModal = ({ id }: Props) => {
       municipio: directoryToEdit?.municipio || '',
       name: directoryToEdit?.name || '',
       nit: directoryToEdit?.nit || '',
-      sector: directoryToEdit?.sector || ''
+      sector: directoryToEdit?.sector || '',
+      headmasterName: directoryToEdit?.headmasterName || '',
+      headmasterEmail: directoryToEdit?.headmasterEmail || '',
+      headmasterPhone: directoryToEdit?.headmasterPhone || ''
     }
   })
   const query = useQueryClient()
@@ -94,7 +97,13 @@ export const EditDirectoryModal = ({ id }: Props) => {
               </select>
             )}
             {item.component === 'controller' && (
-              <NITInputController control={control} name={item.name} defaultValue="" />
+              <MaskInputController
+                mask={item.mask || ''}
+                control={control}
+                name={item.name}
+                placeholder={item.label}
+                defaultValue=""
+              />
             )}
           </div>
         ))}

@@ -6,9 +6,17 @@ interface Props {
   name: keyof SchoolDirectoryForm
   control: Control<SchoolDirectoryForm>
   defaultValue: string
+  mask: string
+  placeholder: string
 }
 
-export const NITInputController = ({ control, name, defaultValue = '' }: Props) => {
+export const MaskInputController = ({
+  control,
+  mask,
+  placeholder,
+  name,
+  defaultValue = ''
+}: Props) => {
   const {
     field: { ref, onChange, value }
   } = useController({
@@ -20,11 +28,11 @@ export const NITInputController = ({ control, name, defaultValue = '' }: Props) 
   return (
     <IMaskInput
       id={name}
-      mask={'0000-000000-000-0'}
+      mask={mask}
       value={value || ''}
       onAccept={(value) => onChange(value)}
       inputRef={ref}
-      placeholder="XXXX-XXXXXX-XXX-X"
+      placeholder={placeholder}
       className="w-full py-3 px-5 rounded-lg border border-gray-300 outline-none bg-white duration-150 hover:border-gray-400 focus:border-gray-400"
       unmask={true}
     />
